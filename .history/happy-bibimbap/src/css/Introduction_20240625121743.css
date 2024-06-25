@@ -1,0 +1,22 @@
+.introduction-container {
+  background-color: #fff7e6;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.introduction-title {
+  font-family: 
+  color: #ff6347;
+  text-align: center;
+}
+
+.introduction-content {
+  font-family: "Arial", sans-serif;
+  line-height: 1.6;
+  color: #555;
+}
+
+.introduction-content p {
+  margin-bottom: 20px;
+}

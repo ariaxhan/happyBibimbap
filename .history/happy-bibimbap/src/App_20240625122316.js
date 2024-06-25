@@ -15,6 +15,7 @@ function App() {
         <Route path="/introduction" element={<Introduction />} />
         <Route path="/contactme" element={<ContactMe />} />
         <Route path="/aboutme" element={<AboutMe />} />
+        <Route path="/3d" element={<ThreeScene />} /> 
       </Routes>
     </Router>
   );
