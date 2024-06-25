@@ -1,11 +1,10 @@
 import React from 'react';
-import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
-import ThreeScene from './components/ThreeScene';
-import AboutMe from './pages/AboutMe';
-import ContactMe from './pages/ContactMe';
-import Home from './pages/Home';
-import Introduction from './pages/Introduction';
-import Portfolio from './pages/Portfolio';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Home from './components/Home';
+import Portfolio from './components/Portfolio';
+import Introduction from './components/Introduction';
+import ContactMe from './components/ContactMe';
+import AboutMe from './components/AboutMe';
 
 function App() {
   return (
@@ -16,7 +15,6 @@ function App() {
         <Route path="/introduction" element={<Introduction />} />
         <Route path="/contactme" element={<ContactMe />} />
         <Route path="/aboutme" element={<AboutMe />} />
-        <Route path="/3d" element={<ThreeScene />} /> 
       </Routes>
     </Router>
   );

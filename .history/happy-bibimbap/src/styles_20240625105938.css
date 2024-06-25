@@ -1,34 +1,19 @@
-/* Ensure the background covers the entire viewport */
-html,
-body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  font-family: Josefin Sans, sans-serif;
-}
-
-body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+/* Home.css */
+.container {
   background: linear-gradient(
     247deg,
     rgba(240, 144, 144, 0.83) 0%,
     #e379a9 50.01%,
     #ee9258 100%
   );
-}
-
-.container {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 20px;
   border-radius: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  max-width: 800px;
-  width: 100%; /* Ensure the container does not exceed the width of the viewport */
-  background-color: white; /* Optional: Add a background color to the container */
+  max-height: 100%;
+  margin: auto;
 }
 
 .navbar {
@@ -39,20 +24,10 @@ body {
 }
 
 .nav-link {
-  color: #d74d8b;
+  color: white;
   text-decoration: none;
   font-size: 18px;
   font-weight: bold;
-  margin-top: 20px;
-  padding: 10px 20px;
-  font-size: 16px;
-  color: #fff;
-  background-color: #d74d8b;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  transition: background-color 0.3s ease;
 }
 
 .nav-link:hover {
@@ -94,11 +69,6 @@ body {
   cursor: pointer;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   transition: background-color 0.3s ease;
-  font-family: Josefin Sans, sans-serif;
-}
-
-.nav-link:hover {
-  background-color: #f1823c;
 }
 
 .button:hover {

@@ -1,11 +1,10 @@
 import React from 'react';
-import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
-import ThreeScene from './components/ThreeScene';
-import AboutMe from './pages/AboutMe';
-import ContactMe from './pages/ContactMe';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
-import Introduction from './pages/Introduction';
 import Portfolio from './pages/Portfolio';
+import Introduction from './pages/Introduction';
+import ContactMe from './pages/ContactMe';
+import AboutMe from './pages/AboutMe';
 
 function App() {
   return (
