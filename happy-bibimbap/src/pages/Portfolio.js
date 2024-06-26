@@ -1,6 +1,12 @@
 import React from 'react';
-import '../css/Portfolio.css';
 import Navbar from '../components/NavBar'; // Import the Navbar component
+import happybibimbap10 from '../images/happybibimbap10.png';
+import happybibimbap11 from '../images/happybibimbap11.png';
+import happybibimbap12 from '../images/happybibimbap12.png';
+import happybibimbap13 from '../images/happybibimbap13.png';
+import happybibimbap14 from '../images/happybibimbap14.png';
+import happybibimbap15 from '../images/happybibimbap15.png';
+import happybibimbap16 from '../images/happybibimbap16.png';
 import happybibimbap2 from '../images/happybibimbap2.png';
 import happybibimbap3 from '../images/happybibimbap3.png';
 import happybibimbap4 from '../images/happybibimbap4.png';
@@ -9,13 +15,6 @@ import happybibimbap6 from '../images/happybibimbap6.png';
 import happybibimbap7 from '../images/happybibimbap7.png';
 import happybibimbap8 from '../images/happybibimbap8.png';
 import happybibimbap9 from '../images/happybibimbap9.png';
-import happybibimbap10 from '../images/happybibimbap10.png';
-import happybibimbap11 from '../images/happybibimbap11.png';
-import happybibimbap12 from '../images/happybibimbap12.png';
-import happybibimbap13 from '../images/happybibimbap13.png';
-import happybibimbap14 from '../images/happybibimbap14.png';
-import happybibimbap15 from '../images/happybibimbap15.png';
-import happybibimbap16 from '../images/happybibimbap16.png';
 
 const images = [
   happybibimbap2,

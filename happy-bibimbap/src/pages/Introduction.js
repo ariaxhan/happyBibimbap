@@ -1,7 +1,5 @@
 import React from 'react';
-import Navbar from '../components/NavBar'; // Import the Navbar component
-import '../css/Introduction.css';
-
+import Navbar from '../components/NavBar'; // Import the Navbar 
 function Introduction() {
   return (
     <div className="container">

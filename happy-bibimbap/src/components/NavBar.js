@@ -1,5 +1,4 @@
 import React from 'react';
-import '../css/Portfolio.css';
 
 const Navbar = () => {
   return (
