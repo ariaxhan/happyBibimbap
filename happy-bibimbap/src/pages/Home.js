@@ -1,16 +1,12 @@
 import React from "react";
 import happybibimbap from "../happybibimbap.png";
 import "../styles.css";
+import Navbar from '../components/NavBar'; // Import the Navbar component
 
 function Home() {
   return (
     <div className="container">
-      <nav className="navbar">
-        <a href="introduction" className="nav-link">Introduction</a>
-        <a href="portfolio" className="nav-link">Portfolio</a>
-        <a href="about" className="nav-link">About Me</a>
-        <a href="contact" className="nav-link">Contact Me</a>
-      </nav>
+      <Navbar />
       <div className="content">
         <img
           src={happybibimbap}
