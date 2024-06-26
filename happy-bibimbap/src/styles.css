@@ -104,6 +104,10 @@ html {
 .introduction-content {
   font-size: 1.25rem;
   line-height: 1.5;
+  word-wrap: break-word; /* Ensures long words break to the next line */
+  overflow-wrap: break-word; /* Alternative to word-wrap for better browser support */
+  max-width: 100%; /* Ensures the content doesn't exceed the container's width */
+  white-space: normal; /* Ensures the text wraps normally within the container */
 }
 
 /* Logo Styles */
@@ -150,4 +154,18 @@ html {
     max-width: 30%;
     max-height: 30%;
   }
+}
+
+.image-container {
+  display: flex; /* Ensure it's a flex container */
+  justify-content: center; /* Center the image horizontally */
+  align-items: center; /* Center the image vertically */
+  width: 100%; /* Make sure it takes up the full width of its parent */
+  overflow: hidden; /* Hide any overflow */
+  margin: 20px 0; /* Add some margin to create space around the image */
+}
+
+.image-container img {
+  max-width: 100%; /* Make sure the image scales down to fit the container */
+  height: auto; /* Maintain aspect ratio */
 }

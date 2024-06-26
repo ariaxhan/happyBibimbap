@@ -16,7 +16,11 @@ function Home() {
         <h1 className="introduction-title">Hello!</h1>
         <div className="introduction-content">
           <p>
-            Welcome to my portfolio! I'm Happy Bibimbap, a creative culinary enthusiast who loves to bring joy and flavor to every dish. Explore my work and join me on this delicious journey!
+            Welcome to my portfolio!
+            <br />
+            <br />
+            I'm Happy Bibimbap, a creative culinary enthusiast who loves to bring joy and flavor to every dish. 
+            Explore my work and join me on this delicious journey!
           </p>
         </div>
       </div>
