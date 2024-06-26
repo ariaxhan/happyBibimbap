@@ -1,4 +1,6 @@
+import { motion } from 'framer-motion';
 import React from 'react';
+import { useInView } from 'react-intersection-observer';
 import Navbar from '../components/NavBar'; // Import the Navbar component
 import happybibimbap10 from '../images/happybibimbap10.png';
 import happybibimbap11 from '../images/happybibimbap11.png';
@@ -45,6 +47,31 @@ const shuffleArray = (array) => {
 
 const shuffledImages = shuffleArray(images);
 
+const imageVariants = {
+  hidden: { opacity: 0, y: -20 },
+  visible: { opacity: 1, y: 0 },
+};
+
+const AnimatedImage = ({ src, alt, delay }) => {
+  const { ref, inView } = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  });
+
+  return (
+    <motion.img 
+      ref={ref}
+      src={src} 
+      alt={alt} 
+      initial="hidden"
+      animate={inView ? 'visible' : 'hidden'}
+      variants={imageVariants}
+      transition={{ duration: 0.5, delay }}
+      className="pic"
+    />
+  );
+};
+
 const Portfolio = () => {
   return (
     <div className="container">
@@ -55,7 +82,12 @@ const Portfolio = () => {
         <p>Check out our amazing creations below:</p>
         <div className="image-wrapper">
           {shuffledImages.map((image, index) => (
-            <img key={index} src={image} className="pic" alt={`Happy Bibimbap ${index + 2}`} />
+            <AnimatedImage 
+              key={index} 
+              src={image} 
+              alt={`Happy Bibimbap ${index + 2}`} 
+              delay={index * 0.2} // Staggered delay for animations
+            />
           ))}
         </div>
       </div>
