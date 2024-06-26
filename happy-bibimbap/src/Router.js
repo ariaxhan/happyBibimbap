@@ -14,7 +14,7 @@ function App() {
 				<Route path="/portfolio" component={Portfolio} />
 				<Route path="/introduction" component={Introduction} />
 				<Route path="/contactme" component={ContactMe} />
-				<Route path="/about" component={AboutMe} />
+				<Route path="/aboutme" component={AboutMe} />
 			</Switch>
 		</Router>
 	);

@@ -6,8 +6,8 @@ const Navbar = () => {
       <a href="/" className="nav-link">Home</a>
       <a href="introduction" className="nav-link">Introduction</a>
       <a href="portfolio" className="nav-link">Portfolio</a>
-      <a href="about" className="nav-link">About Me</a>
-      <a href="contact" className="nav-link">Contact Me</a>
+      <a href="aboutme" className="nav-link">About Me</a>
+      <a href="contactme" className="nav-link">Contact Me</a>
     </nav>
   );
 };
