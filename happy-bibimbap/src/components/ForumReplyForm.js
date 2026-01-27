@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { createPost } from '../utils/forumApi';
+import { createPost, getThread } from '../utils/forumApi';
 
 function ForumReplyForm({ threadId, onPostCreated }) {
-  const [author, setAuthor] = useState('');
   const [content, setContent] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
@@ -11,8 +10,8 @@ function ForumReplyForm({ threadId, onPostCreated }) {
   async function handleSubmit(e) {
     e.preventDefault();
 
-    if (!author.trim() || !content.trim()) {
-      setError('Please fill in all fields');
+    if (!content.trim()) {
+      setError('Please enter your reply');
       return;
     }
 
@@ -20,14 +19,23 @@ function ForumReplyForm({ threadId, onPostCreated }) {
       setSubmitting(true);
       setError(null);
 
-      const newPost = await createPost(threadId, {
-        author: author.trim(),
+      const response = await createPost(threadId, {
         content: content.trim(),
       });
 
-      onPostCreated(newPost);
+      // Backend returns { success: true, post_id }
+      // Fetch the full thread to get the complete post data
+      const threadData = await getThread(threadId);
+      const fullPost = threadData.posts.find(p => p.id === response.post_id);
+      
+      if (fullPost) {
+        onPostCreated(fullPost);
+      } else {
+        // Fallback: reload thread if we can't find the new post
+        onPostCreated(null);
+      }
+      
       setContent('');
-      setAuthor('');
     } catch (err) {
       setError(err.message);
     } finally {
@@ -45,21 +53,6 @@ function ForumReplyForm({ threadId, onPostCreated }) {
       <h3 className="reply-form-title">Add a Reply</h3>
 
       <form onSubmit={handleSubmit} className="reply-form">
-        <div className="form-group">
-          <label htmlFor="author">Your Name</label>
-          <input
-            id="author"
-            type="text"
-            value={author}
-            onChange={(e) => setAuthor(e.target.value)}
-            placeholder="Enter your name"
-            className="form-input"
-            disabled={submitting}
-            maxLength={50}
-            required
-          />
-        </div>
-
         <div className="form-group">
           <label htmlFor="content">Your Reply</label>
           <textarea

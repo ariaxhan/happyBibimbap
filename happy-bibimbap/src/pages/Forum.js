@@ -30,7 +30,12 @@ function Forum() {
   }
 
   function handleThreadCreated(newThread) {
-    setThreads(prev => [newThread, ...prev]);
+    if (newThread) {
+      setThreads(prev => [newThread, ...prev]);
+    } else {
+      // Reload threads if thread not found
+      loadThreads();
+    }
     setShowCreateModal(false);
   }
 

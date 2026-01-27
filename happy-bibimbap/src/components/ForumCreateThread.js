@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { createThread } from '../utils/forumApi';
+import { createThread, getThreads } from '../utils/forumApi';
 
 function ForumCreateThread({ onClose, onThreadCreated }) {
-  const [author, setAuthor] = useState('');
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [submitting, setSubmitting] = useState(false);
@@ -12,7 +11,7 @@ function ForumCreateThread({ onClose, onThreadCreated }) {
   async function handleSubmit(e) {
     e.preventDefault();
 
-    if (!author.trim() || !title.trim() || !content.trim()) {
+    if (!title.trim() || !content.trim()) {
       setError('Please fill in all fields');
       return;
     }
@@ -21,13 +20,22 @@ function ForumCreateThread({ onClose, onThreadCreated }) {
       setSubmitting(true);
       setError(null);
 
-      const newThread = await createThread({
-        author: author.trim(),
+      const response = await createThread({
         title: title.trim(),
         content: content.trim(),
       });
 
-      onThreadCreated(newThread);
+      // Backend returns { success: true, thread_id }
+      // Fetch the full thread data from the threads list
+      const threadsData = await getThreads();
+      const fullThread = threadsData.threads.find(t => t.id === response.thread_id);
+      
+      if (fullThread) {
+        onThreadCreated(fullThread);
+      } else {
+        // Fallback: reload threads if we can't find the new thread
+        onThreadCreated(null);
+      }
     } catch (err) {
       setError(err.message);
       setSubmitting(false);
@@ -62,21 +70,6 @@ function ForumCreateThread({ onClose, onThreadCreated }) {
           </div>
 
           <form onSubmit={handleSubmit} className="create-thread-form">
-            <div className="form-group">
-              <label htmlFor="create-author">Your Name</label>
-              <input
-                id="create-author"
-                type="text"
-                value={author}
-                onChange={(e) => setAuthor(e.target.value)}
-                placeholder="Enter your name"
-                className="form-input"
-                disabled={submitting}
-                maxLength={50}
-                required
-              />
-            </div>
-
             <div className="form-group">
               <label htmlFor="create-title">Discussion Title</label>
               <input

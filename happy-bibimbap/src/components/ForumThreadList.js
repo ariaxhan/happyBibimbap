@@ -47,13 +47,13 @@ function ForumThreadList({ threads }) {
                 <span className="thread-item-author">by {thread.author}</span>
                 <span className="thread-item-separator">•</span>
                 <span className="thread-item-time">
-                  {formatTimeAgo(thread.lastActivity)}
+                  {formatTimeAgo(thread.last_activity || thread.lastActivity)}
                 </span>
               </p>
             </div>
             <div className="thread-item-stats">
               <span className="thread-stat">
-                {thread.postCount} {thread.postCount === 1 ? 'reply' : 'replies'}
+                {thread.post_count || thread.postCount || 0} {(thread.post_count || thread.postCount || 0) === 1 ? 'reply' : 'replies'}
               </span>
             </div>
           </Link>

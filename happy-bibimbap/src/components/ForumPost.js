@@ -4,7 +4,8 @@ import { toggleLike } from '../utils/forumApi';
 
 function ForumPost({ post, threadId, isOriginalPost, onLikeChange }) {
   const [liked, setLiked] = useState(false);
-  const [likeCount, setLikeCount] = useState(post.likes || 0);
+  // Backend returns like_count (snake_case)
+  const [likeCount, setLikeCount] = useState(post.like_count || post.likes || 0);
   const [liking, setLiking] = useState(false);
 
   async function handleLike() {
@@ -42,7 +43,7 @@ function ForumPost({ post, threadId, isOriginalPost, onLikeChange }) {
         <div className="post-info">
           <span className="post-author">{post.author}</span>
           <span className="post-time">
-            {new Date(post.createdAt).toLocaleString('en-US', {
+            {new Date(post.created_at || post.createdAt).toLocaleString('en-US', {
               month: 'short',
               day: 'numeric',
               year: 'numeric',

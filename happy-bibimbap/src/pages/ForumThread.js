@@ -32,18 +32,22 @@ function ForumThread() {
   }
 
   function handlePostCreated(newPost) {
-    setThread(prev => ({
-      ...prev,
-      posts: [...prev.posts, newPost],
-      postCount: prev.postCount + 1,
-    }));
+    if (newPost) {
+      setThread(prev => ({
+        ...prev,
+        posts: [...prev.posts, newPost],
+      }));
+    } else {
+      // Reload thread if post not found
+      loadThread();
+    }
   }
 
   function handlePostLiked(postId, newLikeCount) {
     setThread(prev => ({
       ...prev,
       posts: prev.posts.map(post =>
-        post.id === postId ? { ...post, likes: newLikeCount } : post
+        post.id === postId ? { ...post, like_count: newLikeCount } : post
       ),
     }));
   }
@@ -109,13 +113,15 @@ function ForumThread() {
           <div className="thread-meta">
             <span className="thread-author">Started by {thread.author}</span>
             <span className="thread-date">
-              {new Date(thread.createdAt).toLocaleDateString('en-US', {
+              {new Date(thread.created_at || thread.createdAt).toLocaleDateString('en-US', {
                 year: 'numeric',
                 month: 'long',
                 day: 'numeric'
               })}
             </span>
-            <span className="thread-count">{thread.postCount} replies</span>
+            <span className="thread-count">
+              {thread.posts ? thread.posts.length : (thread.post_count || 0)} replies
+            </span>
           </div>
         </div>
 
