@@ -14,6 +14,7 @@ interface Env {
 function getCorsHeaders(origin: string): HeadersInit {
   const allowedOrigins = [
     'https://happybibimbap.pages.dev',
+    'https://happybibimbap.org',
     'http://localhost:3000',
     'http://127.0.0.1:3000'
   ];
@@ -117,16 +118,17 @@ export default {
       });
     }
 
-    // Rate limiting
-    const ip = request.headers.get('CF-Connecting-IP') || 'unknown';
-    const rateLimitWindow = parseInt(env.RATE_LIMIT_WINDOW || '60');
-    const rateLimitMax = parseInt(env.RATE_LIMIT_MAX_REQUESTS || '10');
-
-    if (!checkRateLimit(ip, rateLimitWindow, rateLimitMax)) {
-      return errorResponse('Rate limit exceeded. Please try again later.', 429, requestOrigin);
-    }
-
     try {
+      // Rate limiting for write operations only (POST, DELETE)
+      if (method === 'POST' || method === 'DELETE') {
+        const ip = request.headers.get('CF-Connecting-IP') || 'unknown';
+        const rateLimitWindow = parseInt(env.RATE_LIMIT_WINDOW || '60');
+        const rateLimitMax = parseInt(env.RATE_LIMIT_MAX_REQUESTS || '10');
+
+        if (!checkRateLimit(ip, rateLimitWindow, rateLimitMax)) {
+          return errorResponse('Rate limit exceeded. Please try again later.', 429, requestOrigin);
+        }
+      }
       // GET /api/threads - List all threads
       if (path === '/api/threads' && method === 'GET') {
         const threads = await env.DB.prepare(`
