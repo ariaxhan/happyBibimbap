@@ -101,6 +101,45 @@ async function getOrCreateUser(db: D1Database, username: string): Promise<number
   return result.id;
 }
 
+// Helper function to handle like/unlike logic
+async function handleLikePost(
+  db: D1Database,
+  postId: number,
+  userId: number,
+  method: string,
+  requestOrigin: string
+): Promise<Response> {
+  // Check if post exists
+  const post = await db.prepare('SELECT id FROM posts WHERE id = ?')
+    .bind(postId).first();
+
+  if (!post) {
+    return errorResponse('Post not found', 404, requestOrigin);
+  }
+
+  // Check if already liked
+  const existing = await db.prepare(
+    'SELECT 1 FROM likes WHERE user_id = ? AND post_id = ?'
+  ).bind(userId, postId).first();
+
+  // Handle DELETE method (explicit unlike) or POST with existing like (toggle unlike)
+  if (method === 'DELETE' || (method === 'POST' && existing)) {
+    // Unlike
+    await db.prepare(
+      'DELETE FROM likes WHERE user_id = ? AND post_id = ?'
+    ).bind(userId, postId).run();
+
+    return jsonResponse({ success: true, liked: false }, 200, requestOrigin);
+  } else {
+    // Like (POST method when not already liked)
+    await db.prepare(
+      'INSERT INTO likes (user_id, post_id) VALUES (?, ?)'
+    ).bind(userId, postId).run();
+
+    return jsonResponse({ success: true, liked: true }, 200, requestOrigin);
+  }
+}
+
 // Router
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
