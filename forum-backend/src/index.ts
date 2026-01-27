@@ -10,30 +10,40 @@ interface Env {
   RATE_LIMIT_MAX_REQUESTS: string;
 }
 
-// CORS headers helper
+// CORS headers helper - allow localhost for development
 function getCorsHeaders(origin: string): HeadersInit {
+  const allowedOrigins = [
+    'https://happybibimbap.pages.dev',
+    'http://localhost:3000',
+    'http://127.0.0.1:3000'
+  ];
+
+  // Use the requesting origin if it's in our allowed list, otherwise default to production
+  const allowOrigin = allowedOrigins.includes(origin) ? origin : allowedOrigins[0];
+
   return {
-    'Access-Control-Allow-Origin': origin,
-    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+    'Access-Control-Allow-Origin': allowOrigin,
+    'Access-Control-Allow-Methods': 'GET, POST, DELETE, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type, X-Username',
+    'Access-Control-Allow-Credentials': 'true',
     'Access-Control-Max-Age': '86400',
   };
 }
 
 // Response helper
-function jsonResponse(data: any, status = 200, corsOrigin: string): Response {
+function jsonResponse(data: any, status = 200, requestOrigin: string): Response {
   return new Response(JSON.stringify(data), {
     status,
     headers: {
       'Content-Type': 'application/json',
-      ...getCorsHeaders(corsOrigin),
+      ...getCorsHeaders(requestOrigin),
     },
   });
 }
 
 // Error response helper
-function errorResponse(message: string, status = 400, corsOrigin: string): Response {
-  return jsonResponse({ error: message }, status, corsOrigin);
+function errorResponse(message: string, status = 400, requestOrigin: string): Response {
+  return jsonResponse({ error: message }, status, requestOrigin);
 }
 
 // Rate limiting (simple in-memory, resets on worker restart)
@@ -96,12 +106,14 @@ export default {
     const url = new URL(request.url);
     const path = url.pathname;
     const method = request.method;
-    const corsOrigin = env.CORS_ORIGIN || '*';
+
+    // Get the origin from the request header for CORS
+    const requestOrigin = request.headers.get('Origin') || 'https://happybibimbap.pages.dev';
 
     // Handle CORS preflight
     if (method === 'OPTIONS') {
       return new Response(null, {
-        headers: getCorsHeaders(corsOrigin),
+        headers: getCorsHeaders(requestOrigin),
       });
     }
 
@@ -111,7 +123,7 @@ export default {
     const rateLimitMax = parseInt(env.RATE_LIMIT_MAX_REQUESTS || '10');
 
     if (!checkRateLimit(ip, rateLimitWindow, rateLimitMax)) {
-      return errorResponse('Rate limit exceeded. Please try again later.', 429, corsOrigin);
+      return errorResponse('Rate limit exceeded. Please try again later.', 429, requestOrigin);
     }
 
     try {
@@ -132,24 +144,24 @@ export default {
           LIMIT 50
         `).all();
 
-        return jsonResponse({ threads: threads.results }, 200, corsOrigin);
+        return jsonResponse({ threads: threads.results }, 200, requestOrigin);
       }
 
       // POST /api/threads - Create new thread
       if (path === '/api/threads' && method === 'POST') {
         const username = request.headers.get('X-Username');
         if (!username) {
-          return errorResponse('Username required in X-Username header', 401, corsOrigin);
+          return errorResponse('Username required in X-Username header', 401, requestOrigin);
         }
 
         const body = await request.json() as { title: string; content: string };
 
         if (!body.title || body.title.length < 5 || body.title.length > 200) {
-          return errorResponse('Title must be 5-200 characters', 400, corsOrigin);
+          return errorResponse('Title must be 5-200 characters', 400, requestOrigin);
         }
 
         if (!body.content || body.content.length < 1 || body.content.length > 5000) {
-          return errorResponse('Content must be 1-5000 characters', 400, corsOrigin);
+          return errorResponse('Content must be 1-5000 characters', 400, requestOrigin);
         }
 
         const userId = await getOrCreateUser(env.DB, username);
@@ -160,7 +172,7 @@ export default {
         ).bind(body.title, userId).first<{ id: number }>();
 
         if (!threadResult) {
-          return errorResponse('Failed to create thread', 500, corsOrigin);
+          return errorResponse('Failed to create thread', 500, requestOrigin);
         }
 
         await env.DB.prepare(
@@ -170,7 +182,7 @@ export default {
         return jsonResponse({
           success: true,
           thread_id: threadResult.id
-        }, 201, corsOrigin);
+        }, 201, requestOrigin);
       }
 
       // GET /api/threads/:id - Get thread with posts
@@ -189,7 +201,7 @@ export default {
         `).bind(threadId).first();
 
         if (!thread) {
-          return errorResponse('Thread not found', 404, corsOrigin);
+          return errorResponse('Thread not found', 404, requestOrigin);
         }
 
         const posts = await env.DB.prepare(`
@@ -208,7 +220,7 @@ export default {
         return jsonResponse({
           thread,
           posts: posts.results
-        }, 200, corsOrigin);
+        }, 200, requestOrigin);
       }
 
       // POST /api/threads/:id/posts - Reply to thread
@@ -217,13 +229,13 @@ export default {
         const username = request.headers.get('X-Username');
 
         if (!username) {
-          return errorResponse('Username required in X-Username header', 401, corsOrigin);
+          return errorResponse('Username required in X-Username header', 401, requestOrigin);
         }
 
         const body = await request.json() as { content: string };
 
         if (!body.content || body.content.length < 1 || body.content.length > 5000) {
-          return errorResponse('Content must be 1-5000 characters', 400, corsOrigin);
+          return errorResponse('Content must be 1-5000 characters', 400, requestOrigin);
         }
 
         const userId = await getOrCreateUser(env.DB, username);
@@ -233,7 +245,7 @@ export default {
           .bind(threadId).first();
 
         if (!thread) {
-          return errorResponse('Thread not found', 404, corsOrigin);
+          return errorResponse('Thread not found', 404, requestOrigin);
         }
 
         // Create post and update thread last_activity
@@ -248,7 +260,7 @@ export default {
         return jsonResponse({
           success: true,
           post_id: postResult?.id
-        }, 201, corsOrigin);
+        }, 201, requestOrigin);
       }
 
       // POST /api/posts/:id/like - Like a post
@@ -257,7 +269,7 @@ export default {
         const username = request.headers.get('X-Username');
 
         if (!username) {
-          return errorResponse('Username required in X-Username header', 401, corsOrigin);
+          return errorResponse('Username required in X-Username header', 401, requestOrigin);
         }
 
         const userId = await getOrCreateUser(env.DB, username);
@@ -273,14 +285,14 @@ export default {
             'DELETE FROM likes WHERE user_id = ? AND post_id = ?'
           ).bind(userId, postId).run();
 
-          return jsonResponse({ success: true, liked: false }, 200, corsOrigin);
+          return jsonResponse({ success: true, liked: false }, 200, requestOrigin);
         } else {
           // Like
           await env.DB.prepare(
             'INSERT INTO likes (user_id, post_id) VALUES (?, ?)'
           ).bind(userId, postId).run();
 
-          return jsonResponse({ success: true, liked: true }, 200, corsOrigin);
+          return jsonResponse({ success: true, liked: true }, 200, requestOrigin);
         }
       }
 
@@ -294,15 +306,15 @@ export default {
             (SELECT COUNT(*) FROM likes) as like_count
         `).first();
 
-        return jsonResponse({ stats }, 200, corsOrigin);
+        return jsonResponse({ stats }, 200, requestOrigin);
       }
 
       // 404 - Not found
-      return errorResponse('Endpoint not found', 404, corsOrigin);
+      return errorResponse('Endpoint not found', 404, requestOrigin);
 
     } catch (error: any) {
       console.error('Error:', error);
-      return errorResponse(error.message || 'Internal server error', 500, corsOrigin);
+      return errorResponse(error.message || 'Internal server error', 500, requestOrigin);
     }
   },
 };
