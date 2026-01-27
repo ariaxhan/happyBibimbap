@@ -1,31 +1,13 @@
 import React from 'react';
 import Navbar from '../components/NavBar';
-import FloatingIngredients from '../components/FloatingIngredients';
 import korea from '../images/korea.png';
 
 function AboutMe() {
   return (
-    <div className="container" style={{ position: 'relative' }}>
+    <div className="container">
       <Navbar />
 
-      {/* 3D Floating Ingredients Background */}
-      <div style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        width: '100%',
-        height: '100%',
-        zIndex: 0,
-        opacity: 0.4,
-        pointerEvents: 'none'
-      }}>
-        <FloatingIngredients
-          count={15}
-          backgroundColor="transparent"
-        />
-      </div>
-
-      <div className="introduction-container" style={{ position: 'relative', zIndex: 1 }}>
+      <div className="introduction-container">
         <h1 className="introduction-title">Hello!</h1>
         <div className="image-container">
           <img src={korea} alt="Korea" className="korea-image" />
