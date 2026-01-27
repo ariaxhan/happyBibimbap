@@ -5,6 +5,8 @@ import ContactMe from './pages/ContactMe';
 import Home from './pages/Home';
 import Introduction from './pages/Introduction';
 import Portfolio from './pages/Portfolio';
+import Forum from './pages/Forum';
+import ForumThread from './pages/ForumThread';
 
 function App() {
   return (
@@ -15,6 +17,8 @@ function App() {
         <Route path="/introduction" element={<Introduction />} />
         <Route path="/contactme" element={<ContactMe />} />
         <Route path="/aboutme" element={<AboutMe />} />
+        <Route path="/forum" element={<Forum />} />
+        <Route path="/forum/:threadId" element={<ForumThread />} />
       </Routes>
     </Router>
   );

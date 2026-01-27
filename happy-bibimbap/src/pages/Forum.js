@@ -1,0 +1,90 @@
+import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import Navbar from '../components/NavBar';
+import ForumThreadList from '../components/ForumThreadList';
+import ForumCreateThread from '../components/ForumCreateThread';
+import { getThreads } from '../utils/forumApi';
+import '../styles.css';
+
+function Forum() {
+  const [threads, setThreads] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [showCreateModal, setShowCreateModal] = useState(false);
+
+  useEffect(() => {
+    loadThreads();
+  }, []);
+
+  async function loadThreads() {
+    try {
+      setLoading(true);
+      setError(null);
+      const data = await getThreads();
+      setThreads(data.threads || []);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  function handleThreadCreated(newThread) {
+    setThreads(prev => [newThread, ...prev]);
+    setShowCreateModal(false);
+  }
+
+  return (
+    <div className="container">
+      <Navbar />
+
+      <motion.div
+        className="forum-container"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <div className="forum-header">
+          <h1 className="forum-title">Happy Bibimbap Community Forum</h1>
+          <p className="forum-description">
+            Share your thoughts, recipes, and experiences with fellow bibimbap enthusiasts!
+          </p>
+          <button
+            className="button-primary"
+            onClick={() => setShowCreateModal(true)}
+          >
+            Start New Discussion
+          </button>
+        </div>
+
+        {loading && (
+          <div className="loading-state">
+            <p>Loading discussions...</p>
+          </div>
+        )}
+
+        {error && (
+          <div className="error-state">
+            <p>Error: {error}</p>
+            <button onClick={loadThreads} className="button-secondary">
+              Try Again
+            </button>
+          </div>
+        )}
+
+        {!loading && !error && (
+          <ForumThreadList threads={threads} />
+        )}
+      </motion.div>
+
+      {showCreateModal && (
+        <ForumCreateThread
+          onClose={() => setShowCreateModal(false)}
+          onThreadCreated={handleThreadCreated}
+        />
+      )}
+    </div>
+  );
+}
+
+export default Forum;
