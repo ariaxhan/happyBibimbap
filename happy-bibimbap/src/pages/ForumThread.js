@@ -130,19 +130,6 @@ function ForumThread() {
           ← Back to Forum
         </button>
 
-        <div className="thread-header">
-          <h1 className="thread-title">{thread.title}</h1>
-          <div className="thread-meta">
-            <span className="thread-author">Started by {thread.author}</span>
-            <span className="thread-date">
-              {formatDate(thread.created_at || thread.createdAt)}
-            </span>
-            <span className="thread-count">
-              {thread.posts ? thread.posts.length : (thread.post_count || 0)} replies
-            </span>
-          </div>
-        </div>
-
         <div className="posts-list">
           {thread.posts.map((post, index) => (
             <ForumPost

@@ -265,8 +265,24 @@ export default {
         }, 201, requestOrigin);
       }
 
-      // POST /api/posts/:id/like - Like a post
-      if (path.match(/^\/api\/posts\/\d+\/like$/) && method === 'POST') {
+      // POST /api/threads/:threadId/posts/:postId/like - Like/unlike a post (nested URL pattern)
+      // Supports both POST (toggle) and DELETE (explicit unlike) methods
+      if (path.match(/^\/api\/threads\/\d+\/posts\/\d+\/like$/) && (method === 'POST' || method === 'DELETE')) {
+        const pathParts = path.split('/');
+        const postId = parseInt(pathParts[5]); // /api/threads/:threadId/posts/:postId/like
+        const username = request.headers.get('X-Username');
+
+        if (!username) {
+          return errorResponse('Username required in X-Username header', 401, requestOrigin);
+        }
+
+        const userId = await getOrCreateUser(env.DB, username);
+        return handleLikePost(env.DB, postId, userId, method, requestOrigin);
+      }
+
+      // POST /api/posts/:id/like - Like a post (simpler URL pattern for backward compatibility)
+      // Supports both POST (toggle) and DELETE (explicit unlike) methods
+      if (path.match(/^\/api\/posts\/\d+\/like$/) && (method === 'POST' || method === 'DELETE')) {
         const postId = parseInt(path.split('/')[3]);
         const username = request.headers.get('X-Username');
 
@@ -275,27 +291,7 @@ export default {
         }
 
         const userId = await getOrCreateUser(env.DB, username);
-
-        // Check if already liked
-        const existing = await env.DB.prepare(
-          'SELECT 1 FROM likes WHERE user_id = ? AND post_id = ?'
-        ).bind(userId, postId).first();
-
-        if (existing) {
-          // Unlike
-          await env.DB.prepare(
-            'DELETE FROM likes WHERE user_id = ? AND post_id = ?'
-          ).bind(userId, postId).run();
-
-          return jsonResponse({ success: true, liked: false }, 200, requestOrigin);
-        } else {
-          // Like
-          await env.DB.prepare(
-            'INSERT INTO likes (user_id, post_id) VALUES (?, ?)'
-          ).bind(userId, postId).run();
-
-          return jsonResponse({ success: true, liked: true }, 200, requestOrigin);
-        }
+        return handleLikePost(env.DB, postId, userId, method, requestOrigin);
       }
 
       // GET /api/stats - Forum statistics

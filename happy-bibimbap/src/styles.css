@@ -34,6 +34,7 @@
 
   /* Typography */
   --font-family: 'Fredoka', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-family-accent: 'Righteous', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --line-height-body: 1.6;
   --line-height-heading: 1.3;
   --font-size-base: 16px;
@@ -65,15 +66,29 @@
   box-sizing: border-box;
 }
 
-body,
+#root {
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
 html {
   height: 100%;
   margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  overflow: auto;
+  overflow-x: hidden;
   font-family: var(--font-family);
   font-size: var(--font-size-base);
   line-height: var(--line-height-body);
@@ -84,6 +99,7 @@ html {
     #e379a9 50.01%,
     #ee9258 100%
   );
+  background-attachment: fixed;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -141,14 +157,31 @@ html {
   align-items: center;
   width: 100%;
   min-height: 100vh;
-  background: linear-gradient(
-    247deg,
-    rgba(240, 144, 144, 0.83) 0%,
-    #e379a9 50.01%,
-    #ee9258 100%
-  );
   padding: 20px;
   box-sizing: border-box;
+  margin: 0;
+}
+
+/* ========================================
+   TYPOGRAPHY - Headings with Accent Font
+   ======================================== */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-family-accent);
+  font-weight: 600;
+  line-height: var(--line-height-heading);
+  color: var(--color-text-primary);
+}
+
+/* Title classes use accent font */
+.introduction-title,
+.music-title,
+.audio-title,
+.forum-title,
+.thread-item-title,
+.thread-title,
+.reply-form-title,
+.modal-title {
+  font-family: var(--font-family-accent);
 }
 
 /* ========================================
