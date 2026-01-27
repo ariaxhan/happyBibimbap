@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { likePost, unlikePost } from '../utils/forumApi';
+import { toggleLike } from '../utils/forumApi';
 
 function ForumPost({ post, threadId, isOriginalPost, onLikeChange }) {
   const [liked, setLiked] = useState(false);
@@ -14,18 +14,15 @@ function ForumPost({ post, threadId, isOriginalPost, onLikeChange }) {
       setLiking(true);
       const newLiked = !liked;
 
-      if (newLiked) {
-        await likePost(threadId, post.id);
-        setLikeCount(prev => prev + 1);
-      } else {
-        await unlikePost(threadId, post.id);
-        setLikeCount(prev => prev - 1);
-      }
+      // Toggle like on backend (single endpoint handles both like and unlike)
+      await toggleLike(post.id);
 
+      // Update local state
       setLiked(newLiked);
+      setLikeCount(prev => newLiked ? prev + 1 : prev - 1);
       onLikeChange(post.id, newLiked ? likeCount + 1 : likeCount - 1);
     } catch (error) {
-      console.error('Failed to like post:', error);
+      console.error('Failed to toggle like:', error);
     } finally {
       setLiking(false);
     }
