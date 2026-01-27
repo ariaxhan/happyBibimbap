@@ -2,7 +2,6 @@ import { motion } from 'framer-motion';
 import React from 'react';
 import { useInView } from 'react-intersection-observer';
 import Navbar from '../components/NavBar'; // Import the Navbar component
-import FloatingIngredients from '../components/FloatingIngredients';
 import happybibimbap10 from '../images/happybibimbap10.png';
 import happybibimbap11 from '../images/happybibimbap11.png';
 import happybibimbap12 from '../images/happybibimbap12.png';
