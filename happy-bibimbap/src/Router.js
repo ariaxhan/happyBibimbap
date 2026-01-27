@@ -1,10 +1,11 @@
 import React from 'react';
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
-import AboutMe from './components/AboutMe';
-import ContactMe from './components/ContactMe';
-import Home from './components/Home';
-import Introduction from './components/Introduction';
-import Portfolio from './components/Portfolio';
+import AboutMe from './pages/AboutMe';
+import ContactMe from './pages/ContactMe';
+import Home from './pages/Home';
+import Introduction from './pages/Introduction';
+import Portfolio from './pages/Portfolio';
+import ThreeDDemo from './pages/3DDemo';
 
 function App() {
 	return (
@@ -15,6 +16,7 @@ function App() {
 				<Route path="/introduction" component={Introduction} />
 				<Route path="/contactme" component={ContactMe} />
 				<Route path="/aboutme" component={AboutMe} />
+				<Route path="/3d-demo" component={ThreeDDemo} />
 			</Switch>
 		</Router>
 	);
