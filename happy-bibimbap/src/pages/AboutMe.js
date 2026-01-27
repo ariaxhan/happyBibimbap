@@ -1,14 +1,20 @@
 import React from 'react';
 import Navbar from '../components/NavBar';
+import useEasterEggs from '../hooks/useEasterEggs';
 import korea from '../images/korea.png';
 
 function AboutMe() {
+  const { handleShiftHover } = useEasterEggs();
+
   return (
     <div className="container">
       <Navbar />
 
       <div className="introduction-container">
-        <h1 className="introduction-title">Hello!</h1>
+        <h1
+          className="introduction-title has-secret-message"
+          onMouseEnter={handleShiftHover("Founded in the Joseon Dynasty, still delicious today!")}
+        >Hello!</h1>
         <div className="image-container">
           <img src={korea} alt="Korea" className="korea-image" />
         </div>

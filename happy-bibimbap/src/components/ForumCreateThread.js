@@ -50,6 +50,9 @@ function ForumCreateThread({ onClose, onThreadCreated }) {
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         onClick={onClose}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="create-thread-title"
       >
         <motion.div
           className="modal-content"
@@ -59,11 +62,12 @@ function ForumCreateThread({ onClose, onThreadCreated }) {
           onClick={(e) => e.stopPropagation()}
         >
           <div className="modal-header">
-            <h2 className="modal-title">Start New Discussion</h2>
+            <h2 id="create-thread-title" className="modal-title">Start New Discussion</h2>
             <button
               className="modal-close"
               onClick={onClose}
               type="button"
+              aria-label="Close dialog"
             >
               ✕
             </button>

@@ -1,0 +1,958 @@
+/* ========================================
+   MICROINTERACTIONS & UI POLISH
+   Design System for Happy Bibimbap
+   ======================================== */
+
+/* ========================================
+   CSS CUSTOM PROPERTIES (Design Tokens)
+   ======================================== */
+:root {
+  /* Color Palette */
+  --color-primary: #d74d8b;
+  --color-primary-light: #e379a9;
+  --color-primary-dark: #b8407a;
+  --color-secondary: #f1823c;
+  --color-secondary-light: #ee9258;
+  --color-accent: #ff6b9d;
+
+  /* Neutral Colors */
+  --color-white: #ffffff;
+  --color-gray-50: #f9f9f9;
+  --color-gray-100: #f5f5f5;
+  --color-gray-200: #e0e0e0;
+  --color-gray-300: #cccccc;
+  --color-gray-400: #999999;
+  --color-gray-500: #888888;
+  --color-gray-600: #666666;
+  --color-gray-700: #444444;
+  --color-gray-800: #333333;
+  --color-gray-900: #1a1a1a;
+
+  /* Semantic Colors */
+  --color-success: #4caf50;
+  --color-success-light: #81c784;
+  --color-error: #d32f2f;
+  --color-error-light: #ef5350;
+  --color-warning: #ff9800;
+
+  /* Spacing Scale (8px grid) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  /* Border Radius (unified) */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 20px;
+  --radius-full: 9999px;
+
+  /* Shadow System (elevation levels) */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.12);
+  --shadow-xl: 0 12px 24px rgba(0, 0, 0, 0.15);
+  --shadow-2xl: 0 20px 40px rgba(0, 0, 0, 0.2);
+
+  /* Glow effects */
+  --glow-primary: 0 0 20px rgba(215, 77, 139, 0.3);
+  --glow-primary-strong: 0 0 30px rgba(215, 77, 139, 0.5);
+  --glow-secondary: 0 0 20px rgba(241, 130, 60, 0.3);
+
+  /* Animation Timings */
+  --timing-fast: 150ms;
+  --timing-normal: 200ms;
+  --timing-medium: 300ms;
+  --timing-slow: 400ms;
+  --timing-slower: 500ms;
+
+  /* Easing Functions */
+  --ease-out: cubic-bezier(0.33, 1, 0.68, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+  /* Typography Scale */
+  --font-size-xs: 0.75rem;    /* 12px */
+  --font-size-sm: 0.875rem;   /* 14px */
+  --font-size-base: 1rem;     /* 16px */
+  --font-size-lg: 1.125rem;   /* 18px */
+  --font-size-xl: 1.25rem;    /* 20px */
+  --font-size-2xl: 1.5rem;    /* 24px */
+  --font-size-3xl: 1.875rem;  /* 30px */
+  --font-size-4xl: 2.25rem;   /* 36px */
+
+  /* Font Weights */
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+}
+
+/* ========================================
+   1. BUTTON MICROINTERACTIONS
+   ======================================== */
+
+/* Enhanced Primary Button */
+.button-primary {
+  position: relative;
+  overflow: hidden;
+  transform: translateY(0);
+  transition:
+    transform var(--timing-normal) var(--ease-spring),
+    box-shadow var(--timing-normal) var(--ease-out),
+    background var(--timing-medium) var(--ease-out);
+}
+
+.button-primary::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-full);
+  transform: translate(-50%, -50%);
+  transition: width var(--timing-slow) var(--ease-out),
+              height var(--timing-slow) var(--ease-out);
+}
+
+.button-primary:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 6px 20px rgba(215, 77, 139, 0.4),
+    0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+.button-primary:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.button-primary:active {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(215, 77, 139, 0.3);
+}
+
+.button-primary:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 3px rgba(215, 77, 139, 0.4),
+    0 4px 12px rgba(215, 77, 139, 0.3);
+}
+
+/* Enhanced Secondary Button */
+.button-secondary {
+  position: relative;
+  overflow: hidden;
+  transition:
+    all var(--timing-normal) var(--ease-out),
+    transform var(--timing-normal) var(--ease-spring);
+}
+
+.button-secondary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--color-primary);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--timing-medium) var(--ease-out);
+  z-index: -1;
+}
+
+.button-secondary:hover {
+  transform: translateY(-2px);
+  color: var(--color-white);
+  border-color: var(--color-primary);
+}
+
+.button-secondary:hover::after {
+  transform: scaleX(1);
+}
+
+.button-secondary:active {
+  transform: translateY(0);
+}
+
+/* Generic Button Styling */
+button {
+  position: relative;
+  overflow: hidden;
+  transition:
+    background-color var(--timing-normal) var(--ease-out),
+    transform var(--timing-fast) var(--ease-spring),
+    box-shadow var(--timing-normal) var(--ease-out);
+}
+
+button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+/* ========================================
+   2. LIKE BUTTON ANIMATION (Heart Pulse)
+   ======================================== */
+
+.like-button {
+  position: relative;
+  transition:
+    all var(--timing-normal) var(--ease-out),
+    transform var(--timing-fast) var(--ease-spring);
+}
+
+.like-button:hover:not(:disabled) {
+  background: var(--color-white);
+  border-color: var(--color-primary);
+  transform: scale(1.05);
+}
+
+.like-button.liked {
+  background: rgba(215, 77, 139, 0.15);
+  border-color: var(--color-primary);
+}
+
+.like-icon {
+  display: inline-block;
+  transition: transform var(--timing-fast) var(--ease-spring);
+}
+
+.like-button:hover .like-icon {
+  transform: scale(1.2);
+}
+
+/* Heart pulse animation on click */
+@keyframes heartPulse {
+  0% {
+    transform: scale(1);
+  }
+  15% {
+    transform: scale(1.4);
+  }
+  30% {
+    transform: scale(0.9);
+  }
+  45% {
+    transform: scale(1.2);
+  }
+  60% {
+    transform: scale(0.95);
+  }
+  75% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.like-button.animating .like-icon {
+  animation: heartPulse var(--timing-slow) var(--ease-out);
+}
+
+/* Particle burst effect on like */
+@keyframes likeParticle {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--x), var(--y)) scale(0);
+  }
+}
+
+.like-button::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* ========================================
+   3. THREAD HOVER EFFECTS (Lift & Glow)
+   ======================================== */
+
+.thread-item {
+  position: relative;
+  border-radius: var(--radius-lg);
+  transition:
+    transform var(--timing-medium) var(--ease-spring),
+    box-shadow var(--timing-medium) var(--ease-out),
+    border-color var(--timing-normal) var(--ease-out);
+}
+
+.thread-item::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  opacity: 0;
+  z-index: -1;
+  transition: opacity var(--timing-medium) var(--ease-out);
+}
+
+.thread-item:hover {
+  transform: translateY(-4px) scale(1.01);
+  box-shadow:
+    var(--shadow-lg),
+    var(--glow-primary);
+  border-color: transparent;
+}
+
+.thread-item:hover::before {
+  opacity: 0.1;
+}
+
+.thread-item:active {
+  transform: translateY(-2px) scale(1.005);
+}
+
+/* Thread title animation */
+.thread-item-title {
+  transition: color var(--timing-normal) var(--ease-out);
+}
+
+.thread-item:hover .thread-item-title {
+  color: var(--color-primary-dark);
+}
+
+/* Stats badge animation */
+.thread-stat {
+  transition:
+    background-color var(--timing-normal) var(--ease-out),
+    transform var(--timing-fast) var(--ease-spring);
+}
+
+.thread-item:hover .thread-stat {
+  background: var(--color-primary-light);
+  color: var(--color-white);
+  transform: scale(1.05);
+}
+
+/* ========================================
+   4. FORM INPUT FOCUS ANIMATIONS
+   ======================================== */
+
+.form-input,
+.form-textarea {
+  transition:
+    border-color var(--timing-normal) var(--ease-out),
+    box-shadow var(--timing-normal) var(--ease-out),
+    transform var(--timing-fast) var(--ease-spring);
+  border-radius: var(--radius-md);
+}
+
+.form-input:hover:not(:disabled),
+.form-textarea:hover:not(:disabled) {
+  border-color: var(--color-gray-300);
+}
+
+.form-input:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow:
+    0 0 0 3px rgba(215, 77, 139, 0.15),
+    var(--shadow-sm);
+  transform: translateY(-1px);
+}
+
+/* Floating label effect (optional - add class .floating-label to form-group) */
+.floating-label {
+  position: relative;
+}
+
+.floating-label label {
+  position: absolute;
+  left: var(--space-3);
+  top: 50%;
+  transform: translateY(-50%);
+  transition:
+    all var(--timing-normal) var(--ease-out);
+  pointer-events: none;
+  color: var(--color-gray-500);
+  background: transparent;
+  padding: 0 var(--space-1);
+}
+
+.floating-label .form-input:focus ~ label,
+.floating-label .form-input:not(:placeholder-shown) ~ label {
+  top: 0;
+  font-size: var(--font-size-xs);
+  color: var(--color-primary);
+  background: var(--color-white);
+}
+
+/* Input underline animation alternative */
+.input-underline {
+  position: relative;
+}
+
+.input-underline::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+  transition:
+    width var(--timing-medium) var(--ease-out),
+    left var(--timing-medium) var(--ease-out);
+}
+
+.input-underline:focus-within::after {
+  width: 100%;
+  left: 0;
+}
+
+/* ========================================
+   5. LOADING STATES (Spinners & Skeletons)
+   ======================================== */
+
+/* Spinner Animation */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spinnerPulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.spinner {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  border: 3px solid rgba(215, 77, 139, 0.2);
+  border-top-color: var(--color-primary);
+  border-radius: var(--radius-full);
+  animation: spin 0.8s linear infinite;
+}
+
+.spinner-lg {
+  width: 40px;
+  height: 40px;
+  border-width: 4px;
+}
+
+.spinner-sm {
+  width: 16px;
+  height: 16px;
+  border-width: 2px;
+}
+
+/* Bouncing dots loader */
+@keyframes bounceDot {
+  0%, 80%, 100% {
+    transform: scale(0);
+  }
+  40% {
+    transform: scale(1);
+  }
+}
+
+.loader-dots {
+  display: flex;
+  gap: var(--space-2);
+  justify-content: center;
+  align-items: center;
+}
+
+.loader-dots span {
+  width: 10px;
+  height: 10px;
+  background: var(--color-primary);
+  border-radius: var(--radius-full);
+  animation: bounceDot 1.4s infinite ease-in-out both;
+}
+
+.loader-dots span:nth-child(1) {
+  animation-delay: -0.32s;
+}
+
+.loader-dots span:nth-child(2) {
+  animation-delay: -0.16s;
+}
+
+/* Skeleton Loading */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--color-gray-100) 25%,
+    var(--color-gray-50) 50%,
+    var(--color-gray-100) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--radius-md);
+}
+
+.skeleton-text {
+  height: 1em;
+  margin-bottom: var(--space-2);
+}
+
+.skeleton-title {
+  height: 1.5em;
+  width: 60%;
+  margin-bottom: var(--space-3);
+}
+
+.skeleton-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full);
+}
+
+.skeleton-card {
+  height: 100px;
+  border-radius: var(--radius-lg);
+}
+
+/* Enhanced loading state */
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+}
+
+.loading-state::before {
+  content: '';
+  display: block;
+  width: 48px;
+  height: 48px;
+  border: 4px solid rgba(215, 77, 139, 0.2);
+  border-top-color: var(--color-primary);
+  border-radius: var(--radius-full);
+  animation: spin 0.8s linear infinite;
+}
+
+/* ========================================
+   6. SUCCESS FEEDBACK ANIMATIONS
+   ======================================== */
+
+@keyframes successPop {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes successCheck {
+  0% {
+    stroke-dashoffset: 100;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes successRipple {
+  0% {
+    transform: scale(0.5);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+.success-indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background: var(--color-success);
+  border-radius: var(--radius-full);
+  animation: successPop var(--timing-medium) var(--ease-spring);
+  position: relative;
+}
+
+.success-indicator::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--color-success);
+  border-radius: var(--radius-full);
+  animation: successRipple 0.6s var(--ease-out);
+}
+
+.success-indicator svg {
+  width: 24px;
+  height: 24px;
+  stroke: white;
+  stroke-width: 3;
+  fill: none;
+}
+
+.success-indicator svg path {
+  stroke-dasharray: 100;
+  animation: successCheck 0.4s 0.2s var(--ease-out) forwards;
+}
+
+/* Success toast */
+.toast-success {
+  position: fixed;
+  bottom: var(--space-6);
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: var(--color-success);
+  color: var(--color-white);
+  padding: var(--space-3) var(--space-6);
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-lg);
+  opacity: 0;
+  transition:
+    transform var(--timing-medium) var(--ease-spring),
+    opacity var(--timing-normal) var(--ease-out);
+  z-index: 1100;
+}
+
+.toast-success.visible {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
+/* ========================================
+   7. NAVBAR LINK HOVER EFFECTS
+   ======================================== */
+
+.nav-link {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  transition:
+    background-color var(--timing-normal) var(--ease-out),
+    transform var(--timing-fast) var(--ease-spring),
+    box-shadow var(--timing-normal) var(--ease-out);
+}
+
+.nav-link::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, var(--color-white), rgba(255, 255, 255, 0.5));
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform var(--timing-medium) var(--ease-out);
+}
+
+.nav-link:hover {
+  text-decoration: none;
+  transform: translateY(-2px);
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.15),
+    var(--glow-secondary);
+}
+
+.nav-link:hover::before {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.nav-link:active {
+  transform: translateY(0);
+}
+
+/* Active state for current page */
+.nav-link.active {
+  background-color: var(--color-secondary);
+  box-shadow: inset 0 -3px 0 rgba(255, 255, 255, 0.3);
+}
+
+/* ========================================
+   8. SCROLL-TRIGGERED FADE-IN ANIMATIONS
+   ======================================== */
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-on-scroll {
+  opacity: 0;
+}
+
+.animate-on-scroll.visible {
+  animation: fadeInUp var(--timing-slower) var(--ease-out) forwards;
+}
+
+.animate-on-scroll.visible.fade-left {
+  animation: fadeInLeft var(--timing-slower) var(--ease-out) forwards;
+}
+
+.animate-on-scroll.visible.fade-right {
+  animation: fadeInRight var(--timing-slower) var(--ease-out) forwards;
+}
+
+.animate-on-scroll.visible.fade-scale {
+  animation: fadeInScale var(--timing-slower) var(--ease-out) forwards;
+}
+
+/* Stagger children animations */
+.stagger-children.visible > * {
+  opacity: 0;
+  animation: fadeInUp var(--timing-slower) var(--ease-out) forwards;
+}
+
+.stagger-children.visible > *:nth-child(1) { animation-delay: 0ms; }
+.stagger-children.visible > *:nth-child(2) { animation-delay: 100ms; }
+.stagger-children.visible > *:nth-child(3) { animation-delay: 200ms; }
+.stagger-children.visible > *:nth-child(4) { animation-delay: 300ms; }
+.stagger-children.visible > *:nth-child(5) { animation-delay: 400ms; }
+.stagger-children.visible > *:nth-child(6) { animation-delay: 500ms; }
+
+/* ========================================
+   9. MODAL ENHANCEMENTS
+   ======================================== */
+
+.modal-overlay {
+  backdrop-filter: blur(4px);
+  transition:
+    opacity var(--timing-medium) var(--ease-out),
+    backdrop-filter var(--timing-medium) var(--ease-out);
+}
+
+.modal-content {
+  border-radius: var(--radius-xl);
+  transition:
+    transform var(--timing-medium) var(--ease-spring),
+    opacity var(--timing-normal) var(--ease-out);
+}
+
+.modal-close {
+  transition:
+    color var(--timing-fast) var(--ease-out),
+    transform var(--timing-fast) var(--ease-spring),
+    background-color var(--timing-fast) var(--ease-out);
+  border-radius: var(--radius-md);
+}
+
+.modal-close:hover {
+  color: var(--color-primary);
+  background-color: rgba(215, 77, 139, 0.1);
+  transform: rotate(90deg);
+}
+
+/* ========================================
+   10. POST/CARD ENHANCEMENTS
+   ======================================== */
+
+.forum-post {
+  border-radius: var(--radius-lg);
+  transition:
+    box-shadow var(--timing-normal) var(--ease-out),
+    transform var(--timing-fast) var(--ease-spring);
+}
+
+.forum-post:hover {
+  box-shadow: var(--shadow-lg);
+}
+
+.post-avatar {
+  transition: transform var(--timing-normal) var(--ease-spring);
+}
+
+.forum-post:hover .post-avatar {
+  transform: scale(1.1);
+}
+
+.original-badge {
+  transition:
+    background-color var(--timing-normal) var(--ease-out),
+    transform var(--timing-fast) var(--ease-spring);
+}
+
+.forum-post:hover .original-badge {
+  background: var(--color-primary-dark);
+  transform: scale(1.05);
+}
+
+/* ========================================
+   11. AUDIO ITEM ENHANCEMENTS
+   ======================================== */
+
+.audio-item {
+  border-radius: var(--radius-lg);
+  transition:
+    transform var(--timing-medium) var(--ease-spring),
+    box-shadow var(--timing-medium) var(--ease-out);
+}
+
+.audio-item:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Lyrics reveal animation */
+.lyrics {
+  animation: fadeInUp var(--timing-medium) var(--ease-out);
+  border-radius: var(--radius-md);
+}
+
+/* ========================================
+   12. PAGE TRANSITION WRAPPER
+   ======================================== */
+
+.page-transition {
+  animation: fadeInUp var(--timing-slower) var(--ease-out);
+}
+
+/* ========================================
+   13. RIPPLE EFFECT (Click feedback)
+   ======================================== */
+
+.ripple {
+  position: relative;
+  overflow: hidden;
+}
+
+.ripple::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 50%;
+  left: 50%;
+  pointer-events: none;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0;
+  transition:
+    transform var(--timing-slow) var(--ease-out),
+    opacity var(--timing-slow) var(--ease-out);
+}
+
+.ripple:active::after {
+  transform: translate(-50%, -50%) scale(2);
+  opacity: 1;
+  transition: none;
+}
+
+/* ========================================
+   14. REDUCED MOTION SUPPORT
+   ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .animate-on-scroll {
+    opacity: 1;
+  }
+
+  .skeleton {
+    animation: none;
+    background: var(--color-gray-100);
+  }
+}
+
+/* ========================================
+   15. FOCUS VISIBLE STYLES
+   ======================================== */
+
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+button:focus-visible,
+.nav-link:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(215, 77, 139, 0.2);
+}

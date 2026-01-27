@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { createPost, getThread } from '../utils/forumApi';
+import LoadingSpinner from './LoadingSpinner';
 
 function ForumReplyForm({ threadId, onPostCreated }) {
   const [content, setContent] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
+  const [showSuccess, setShowSuccess] = useState(false);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -34,8 +36,11 @@ function ForumReplyForm({ threadId, onPostCreated }) {
         // Fallback: reload thread if we can't find the new post
         onPostCreated(null);
       }
-      
+
       setContent('');
+      // Show brief success flash
+      setShowSuccess(true);
+      setTimeout(() => setShowSuccess(false), 2000);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -77,13 +82,33 @@ function ForumReplyForm({ threadId, onPostCreated }) {
           </div>
         )}
 
-        <button
+        <motion.button
           type="submit"
           className="button-primary"
           disabled={submitting}
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
         >
-          {submitting ? 'Posting...' : 'Post Reply'}
-        </button>
+          {submitting ? (
+            <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <LoadingSpinner size="sm" />
+              Posting...
+            </span>
+          ) : showSuccess ? (
+            <motion.span
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+              Sent!
+            </motion.span>
+          ) : (
+            'Post Reply'
+          )}
+        </motion.button>
       </form>
     </motion.div>
   );

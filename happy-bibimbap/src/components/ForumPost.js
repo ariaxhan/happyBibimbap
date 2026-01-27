@@ -7,6 +7,7 @@ function ForumPost({ post, threadId, isOriginalPost, onLikeChange }) {
   // Backend returns like_count (snake_case)
   const [likeCount, setLikeCount] = useState(post.like_count || post.likes || 0);
   const [liking, setLiking] = useState(false);
+  const [animating, setAnimating] = useState(false);
 
   async function handleLike() {
     if (liking) return;
@@ -14,6 +15,12 @@ function ForumPost({ post, threadId, isOriginalPost, onLikeChange }) {
     try {
       setLiking(true);
       const newLiked = !liked;
+
+      // Trigger heart pulse animation when liking
+      if (newLiked) {
+        setAnimating(true);
+        setTimeout(() => setAnimating(false), 400);
+      }
 
       // Toggle like on backend (single endpoint handles both like and unlike)
       await toggleLike(post.id);
@@ -63,13 +70,24 @@ function ForumPost({ post, threadId, isOriginalPost, onLikeChange }) {
 
       <div className="post-actions">
         <motion.button
-          className={`like-button ${liked ? 'liked' : ''}`}
+          className={`like-button ${liked ? 'liked' : ''} ${animating ? 'animating' : ''}`}
           onClick={handleLike}
           disabled={liking}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          aria-label={`${liked ? 'Unlike' : 'Like'} this post. Currently ${likeCount} ${likeCount === 1 ? 'like' : 'likes'}`}
+          aria-pressed={liked}
         >
-          <span className="like-icon">{liked ? '❤️' : '🤍'}</span>
+          <motion.span
+            className="like-icon"
+            aria-hidden="true"
+            animate={animating ? {
+              scale: [1, 1.4, 0.9, 1.2, 0.95, 1.05, 1],
+            } : {}}
+            transition={{ duration: 0.4, ease: [0.33, 1, 0.68, 1] }}
+          >
+            {liked ? String.fromCodePoint(0x2764, 0xFE0F) : String.fromCodePoint(0x1F90D)}
+          </motion.span>
           <span className="like-count">{likeCount}</span>
         </motion.button>
       </div>

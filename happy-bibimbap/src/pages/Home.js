@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
-import Navbar from '../components/NavBar'; // Import the Navbar component
-import BibimbapBowl3D from '../components/BibimbapBowl3D';
-import MusicVisualizer3D from '../components/MusicVisualizer3D';
+import Navbar from '../components/NavBar';
+import PageTransition from '../components/PageTransition';
+import useEasterEggs from '../hooks/useEasterEggs';
 import happybibimbap from "../happybibimbap.png";
 import "../styles.css";
 
@@ -128,7 +128,8 @@ Let the flavors reign
 
 function Home() {
   const [visibleLyrics, setVisibleLyrics] = useState(Array(songs.length).fill(false));
-  const audioRefs = useRef([]);
+  const logoRef = useRef(null);
+  const { handleLogoClick, handleShiftHover } = useEasterEggs();
 
   const toggleLyrics = (index) => {
     setVisibleLyrics(prevState => {
@@ -139,24 +140,22 @@ function Home() {
   };
 
   return (
-    <div className="container">
-      <Navbar />
+    <PageTransition>
+      <div className="container">
+        <Navbar />
       <div className="introduction-container">
-        {/* 3D Hero Bowl */}
-        <div style={{ width: '100%', maxWidth: '600px', margin: '20px auto' }}>
-          <BibimbapBowl3D
-            height="450px"
-            autoRotate={true}
-            enableZoom={true}
-          />
-        </div>
-
         <img
+          ref={logoRef}
           src={happybibimbap}
-          className="logo"
+          className="logo logo-clickable"
           alt="Happy Bibimbap"
+          onClick={() => handleLogoClick(logoRef.current)}
+          title="Click me!"
         />
-        <h1 className="introduction-title">Hello!</h1>
+        <h1
+          className="introduction-title has-secret-message"
+          onMouseEnter={handleShiftHover("Made with love and gochujang!")}
+        >Hello!</h1>
         <div className="introduction-content">
           <p>
             Welcome to my portfolio!
@@ -167,48 +166,36 @@ function Home() {
           </p>
         </div>
       </div>
-      {/* New music gallery section */}
-      <div className="music-container">
-        <h2 className="music-title">Enjoy Some Music</h2>
+      {/* Music gallery section */}
+      <section className="music-container" aria-labelledby="music-section-title">
+        <h2 id="music-section-title" className="music-title">Enjoy Some Music</h2>
         <p className="music-description">Relax and enjoy these soothing, calming, and happy tracks inspired by the joys of making and enjoying bibimbap.</p>
-        <div className="audio-gallery">
+        <div className="audio-gallery" role="list">
           {songs.map((song, index) => (
-            <div key={index} className="audio-item">
-              <h3 className="audio-title">{song.title}</h3>
-              <audio
-                controls
-                ref={(el) => (audioRefs.current[index] = el)}
-              >
+            <article key={index} className="audio-item" role="listitem" aria-labelledby={`song-title-${index}`}>
+              <h3 id={`song-title-${index}`} className="audio-title">{song.title}</h3>
+              <audio controls aria-label={`Audio player for ${song.title}`}>
                 <source src={song.src} type="audio/mpeg" />
                 Your browser does not support the audio element.
               </audio>
-
-              {/* 3D Music Visualizer */}
-              {audioRefs.current[index] && (
-                <div style={{ marginTop: '15px', borderRadius: '8px', overflow: 'hidden' }}>
-                  <MusicVisualizer3D
-                    audioElement={audioRefs.current[index]}
-                    height="250px"
-                    barCount={32}
-                    style={index === 0 ? 'bars' : index === 1 ? 'spheres' : 'particles'}
-                    backgroundColor="#1a1a2e"
-                  />
-                </div>
-              )}
-
-              <button onClick={() => toggleLyrics(index)}>
+              <button
+                onClick={() => toggleLyrics(index)}
+                aria-expanded={visibleLyrics[index]}
+                aria-controls={`lyrics-${index}`}
+              >
                 {visibleLyrics[index] ? "Hide Lyrics" : "Show Lyrics"}
               </button>
               {visibleLyrics[index] && (
-                <div className="lyrics">
+                <div id={`lyrics-${index}`} className="lyrics" role="region" aria-label={`Lyrics for ${song.title}`}>
                   <p>{song.lyrics}</p>
                 </div>
               )}
-            </div>
+            </article>
           ))}
         </div>
+      </section>
       </div>
-    </div>
+    </PageTransition>
   );
 }
 

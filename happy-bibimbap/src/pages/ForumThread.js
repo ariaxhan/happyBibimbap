@@ -72,9 +72,11 @@ function ForumThread() {
     return (
       <div className="container">
         <Navbar />
-        <div className="loading-state">
-          <p>Loading thread...</p>
-        </div>
+        <main className="thread-container">
+          <div className="loading-state" role="status" aria-live="polite">
+            <p>Loading thread...</p>
+          </div>
+        </main>
       </div>
     );
   }
@@ -83,12 +85,14 @@ function ForumThread() {
     return (
       <div className="container">
         <Navbar />
-        <div className="error-state">
-          <p>Error: {error}</p>
-          <button onClick={loadThread} className="button-secondary">
-            Try Again
-          </button>
-        </div>
+        <main className="thread-container">
+          <div className="error-state" role="alert" aria-live="assertive">
+            <p>Error: {error}</p>
+            <button onClick={loadThread} className="button-secondary">
+              Try Again
+            </button>
+          </div>
+        </main>
       </div>
     );
   }
@@ -97,12 +101,14 @@ function ForumThread() {
     return (
       <div className="container">
         <Navbar />
-        <div className="error-state">
-          <p>Thread not found</p>
-          <button onClick={() => navigate('/forum')} className="button-secondary">
-            Back to Forum
-          </button>
-        </div>
+        <main className="thread-container">
+          <div className="error-state" role="alert">
+            <p>Thread not found</p>
+            <button onClick={() => navigate('/forum')} className="button-secondary">
+              Back to Forum
+            </button>
+          </div>
+        </main>
       </div>
     );
   }
