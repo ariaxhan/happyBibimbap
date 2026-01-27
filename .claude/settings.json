@@ -1,0 +1,24 @@
+{
+  "hooks": {
+    "PostToolUse": {
+      "Edit": [
+        {
+          "description": "Format JS files after editing",
+          "command": "cd happy-bibimbap && npx prettier --write \"{{file_path}}\" 2>/dev/null || true",
+          "filter": {
+            "path": "happy-bibimbap/**/*.{js,jsx,json,css}"
+          }
+        }
+      ],
+      "Write": [
+        {
+          "description": "Format JS files after writing",
+          "command": "cd happy-bibimbap && npx prettier --write \"{{file_path}}\" 2>/dev/null || true",
+          "filter": {
+            "path": "happy-bibimbap/**/*.{js,jsx,json,css}"
+          }
+        }
+      ]
+    }
+  }
+}
