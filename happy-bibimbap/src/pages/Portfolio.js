@@ -77,22 +77,6 @@ const Portfolio = () => {
     <div className="container" style={{ position: 'relative' }}>
       <Navbar /> {/* Use the Navbar component */}
 
-      {/* Subtle 3D Background */}
-      <div style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        width: '100%',
-        height: '100%',
-        zIndex: 0,
-        opacity: 0.3,
-        pointerEvents: 'none'
-      }}>
-        <FloatingIngredients
-          count={12}
-          backgroundColor="transparent"
-        />
-      </div>
 
       <div className="portfolio-container" style={{ position: 'relative', zIndex: 1 }}>
         <h1>Welcome to Happy Bibimbap's Portfolio!</h1>
