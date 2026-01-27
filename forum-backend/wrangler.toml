@@ -1,0 +1,19 @@
+name = "happy-bibimbap-forum"
+main = "src/index.ts"
+compatibility_date = "2024-01-01"
+
+# D1 Database binding
+[[d1_databases]]
+binding = "DB"
+database_name = "happy-bibimbap-forum"
+database_id = "46f97621-d4c4-44a8-812e-2258d2cb8097"
+
+# Environment variables
+[vars]
+CORS_ORIGIN = "https://happybibimbap.pages.dev"
+RATE_LIMIT_WINDOW = "60"  # seconds
+RATE_LIMIT_MAX_REQUESTS = "10"
+
+# Production overrides
+[env.production]
+vars = { CORS_ORIGIN = "https://happybibimbap.com" }

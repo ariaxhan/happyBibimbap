@@ -1,0 +1,17 @@
+# Node modules
+node_modules/
+
+# Wrangler local state
+.wrangler/
+.dev.vars
+
+# OS files
+.DS_Store
+
+# Logs
+*.log
+npm-debug.log*
+
+# Editor directories
+.vscode/
+.idea/
