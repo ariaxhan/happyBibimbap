@@ -286,13 +286,14 @@ button:hover {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: rgba(255, 255, 255, 0.95);
+  background: linear-gradient(135deg, rgba(255, 230, 240, 0.95), rgba(255, 240, 230, 0.95));
   padding: 20px;
   border-radius: 12px;
   text-decoration: none;
   color: inherit;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
+  border: 1px solid rgba(227, 121, 169, 0.2);
 }
 
 .thread-item:hover {
@@ -372,11 +373,12 @@ button:hover {
 }
 
 .thread-header {
-  background: rgba(255, 255, 255, 0.95);
+  background: linear-gradient(135deg, rgba(255, 230, 240, 0.95), rgba(255, 240, 230, 0.95));
   padding: 30px;
   border-radius: 12px;
   margin-bottom: 20px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(227, 121, 169, 0.2);
 }
 
 .thread-title {
@@ -411,10 +413,11 @@ button:hover {
 }
 
 .forum-post {
-  background: rgba(255, 255, 255, 0.95);
+  background: linear-gradient(135deg, rgba(255, 240, 245, 0.95), rgba(255, 245, 240, 0.95));
   padding: 20px;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(227, 121, 169, 0.15);
 }
 
 .forum-post.original-post {

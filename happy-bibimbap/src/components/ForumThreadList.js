@@ -64,8 +64,15 @@ function ForumThreadList({ threads }) {
 }
 
 function formatTimeAgo(timestamp) {
+  if (!timestamp) return 'recently';
+
+  // Handle SQLite timestamp format "YYYY-MM-DD HH:MM:SS"
+  const past = new Date(timestamp.replace(' ', 'T') + 'Z');
+
+  // Check if date is valid
+  if (isNaN(past.getTime())) return 'recently';
+
   const now = new Date();
-  const past = new Date(timestamp);
   const diffMs = now - past;
   const diffMins = Math.floor(diffMs / 60000);
   const diffHours = Math.floor(diffMs / 3600000);

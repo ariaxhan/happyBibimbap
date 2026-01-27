@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import Navbar from '../components/NavBar';
@@ -7,6 +7,22 @@ import ForumReplyForm from '../components/ForumReplyForm';
 import { getThread } from '../utils/forumApi';
 import '../styles.css';
 
+function formatDate(timestamp) {
+  if (!timestamp) return 'Unknown date';
+
+  // Handle SQLite timestamp format "YYYY-MM-DD HH:MM:SS"
+  const date = new Date(timestamp.replace(' ', 'T') + 'Z');
+
+  // Check if date is valid
+  if (isNaN(date.getTime())) return 'Unknown date';
+
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+}
+
 function ForumThread() {
   const { threadId } = useParams();
   const navigate = useNavigate();
@@ -14,11 +30,7 @@ function ForumThread() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    loadThread();
-  }, [threadId]);
-
-  async function loadThread() {
+  const loadThread = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -29,7 +41,11 @@ function ForumThread() {
     } finally {
       setLoading(false);
     }
-  }
+  }, [threadId]);
+
+  useEffect(() => {
+    loadThread();
+  }, [loadThread]);
 
   function handlePostCreated(newPost) {
     if (newPost) {
@@ -113,11 +129,7 @@ function ForumThread() {
           <div className="thread-meta">
             <span className="thread-author">Started by {thread.author}</span>
             <span className="thread-date">
-              {new Date(thread.created_at || thread.createdAt).toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-              })}
+              {formatDate(thread.created_at || thread.createdAt)}
             </span>
             <span className="thread-count">
               {thread.posts ? thread.posts.length : (thread.post_count || 0)} replies
