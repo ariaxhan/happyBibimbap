@@ -1,6 +1,5 @@
 import React, { useRef, useEffect, useState, useMemo } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import * as THREE from 'three';
 
 function VisualizerBars({ audioData, barCount = 64, style = 'bars' }) {
   const groupRef = useRef();

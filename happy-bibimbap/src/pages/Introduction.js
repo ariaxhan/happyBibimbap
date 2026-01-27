@@ -1,7 +1,8 @@
 import { motion } from 'framer-motion';
 import React from 'react';
 import { useInView } from 'react-intersection-observer';
-import Navbar from '../components/NavBar'; // Import the Navbar 
+import Navbar from '../components/NavBar'; // Import the Navbar
+import BibimbapBowl3D from '../components/BibimbapBowl3D';
 import egg from '../images/egg.png';
 import magic from '../images/magic.png';
 import symphony from '../images/symphony.png';
@@ -39,6 +40,16 @@ const Introduction = () => {
       <Navbar />
       <div className="introduction-container">
         <h1 className="introduction-title">Introduction</h1>
+
+        {/* Small 3D Bowl Accent */}
+        <div style={{ width: '100%', maxWidth: '350px', margin: '20px auto' }}>
+          <BibimbapBowl3D
+            height="280px"
+            autoRotate={true}
+            enableZoom={false}
+          />
+        </div>
+
         <div className="introduction-content">
           <p>
             Greetings, fellow culinary enthusiasts!

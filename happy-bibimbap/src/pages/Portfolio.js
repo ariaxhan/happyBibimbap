@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import React from 'react';
 import { useInView } from 'react-intersection-observer';
 import Navbar from '../components/NavBar'; // Import the Navbar component
+import FloatingIngredients from '../components/FloatingIngredients';
 import happybibimbap10 from '../images/happybibimbap10.png';
 import happybibimbap11 from '../images/happybibimbap11.png';
 import happybibimbap12 from '../images/happybibimbap12.png';
@@ -74,9 +75,27 @@ const AnimatedImage = ({ src, alt, delay }) => {
 
 const Portfolio = () => {
   return (
-    <div className="container">
+    <div className="container" style={{ position: 'relative' }}>
       <Navbar /> {/* Use the Navbar component */}
-      <div className="portfolio-container">
+
+      {/* Subtle 3D Background */}
+      <div style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        zIndex: 0,
+        opacity: 0.3,
+        pointerEvents: 'none'
+      }}>
+        <FloatingIngredients
+          count={12}
+          backgroundColor="transparent"
+        />
+      </div>
+
+      <div className="portfolio-container" style={{ position: 'relative', zIndex: 1 }}>
         <h1>Welcome to Happy Bibimbap's Portfolio!</h1>
         <p>We are here to serve you some sweet, colorful, funny, unique, and creative dishes!</p>
         <p>Check out our amazing creations below:</p>

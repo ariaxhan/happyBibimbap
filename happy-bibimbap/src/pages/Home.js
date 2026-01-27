@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Navbar from '../components/NavBar'; // Import the Navbar component
+import BibimbapBowl3D from '../components/BibimbapBowl3D';
+import MusicVisualizer3D from '../components/MusicVisualizer3D';
 import happybibimbap from "../happybibimbap.png";
 import "../styles.css";
 
@@ -126,6 +128,7 @@ Let the flavors reign
 
 function Home() {
   const [visibleLyrics, setVisibleLyrics] = useState(Array(songs.length).fill(false));
+  const audioRefs = useRef([]);
 
   const toggleLyrics = (index) => {
     setVisibleLyrics(prevState => {
@@ -139,6 +142,15 @@ function Home() {
     <div className="container">
       <Navbar />
       <div className="introduction-container">
+        {/* 3D Hero Bowl */}
+        <div style={{ width: '100%', maxWidth: '600px', margin: '20px auto' }}>
+          <BibimbapBowl3D
+            height="450px"
+            autoRotate={true}
+            enableZoom={true}
+          />
+        </div>
+
         <img
           src={happybibimbap}
           className="logo"
@@ -150,7 +162,7 @@ function Home() {
             Welcome to my portfolio!
             <br />
             <br />
-            I'm Happy Bibimbap, a creative culinary enthusiast who loves to bring joy and flavor to every dish. 
+            I'm Happy Bibimbap, a creative culinary enthusiast who loves to bring joy and flavor to every dish.
             Explore my work and join me on this delicious journey!
           </p>
         </div>
@@ -163,10 +175,27 @@ function Home() {
           {songs.map((song, index) => (
             <div key={index} className="audio-item">
               <h3 className="audio-title">{song.title}</h3>
-              <audio controls>
+              <audio
+                controls
+                ref={(el) => (audioRefs.current[index] = el)}
+              >
                 <source src={song.src} type="audio/mpeg" />
                 Your browser does not support the audio element.
               </audio>
+
+              {/* 3D Music Visualizer */}
+              {audioRefs.current[index] && (
+                <div style={{ marginTop: '15px', borderRadius: '8px', overflow: 'hidden' }}>
+                  <MusicVisualizer3D
+                    audioElement={audioRefs.current[index]}
+                    height="250px"
+                    barCount={32}
+                    style={index === 0 ? 'bars' : index === 1 ? 'spheres' : 'particles'}
+                    backgroundColor="#1a1a2e"
+                  />
+                </div>
+              )}
+
               <button onClick={() => toggleLyrics(index)}>
                 {visibleLyrics[index] ? "Hide Lyrics" : "Show Lyrics"}
               </button>
