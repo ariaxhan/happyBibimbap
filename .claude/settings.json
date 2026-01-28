@@ -1,24 +1,15 @@
 {
   "hooks": {
-    "PostToolUse": {
-      "Edit": [
-        {
-          "description": "Format JS files after editing",
-          "command": "cd happy-bibimbap && npx prettier --write \"{{file_path}}\" 2>/dev/null || true",
-          "filter": {
-            "path": "happy-bibimbap/**/*.{js,jsx,json,css}"
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR/.claude/hooks/format-js.sh\""
           }
-        }
-      ],
-      "Write": [
-        {
-          "description": "Format JS files after writing",
-          "command": "cd happy-bibimbap && npx prettier --write \"{{file_path}}\" 2>/dev/null || true",
-          "filter": {
-            "path": "happy-bibimbap/**/*.{js,jsx,json,css}"
-          }
-        }
-      ]
-    }
+        ]
+      }
+    ]
   }
 }
