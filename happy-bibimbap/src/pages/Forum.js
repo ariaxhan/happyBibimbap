@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import Navbar from '../components/NavBar';
-import PageTransition from '../components/PageTransition';
-import ForumThreadList from '../components/ForumThreadList';
-import ForumCreateThread from '../components/ForumCreateThread';
-import LoadingSpinner from '../components/LoadingSpinner';
-import SuccessToast from '../components/SuccessToast';
-import { getThreads } from '../utils/forumApi';
-import '../styles.css';
-import '../microinteractions.css';
+import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import Navbar from "../components/NavBar";
+import PageTransition from "../components/PageTransition";
+import ForumThreadList from "../components/ForumThreadList";
+import ForumCreateThread from "../components/ForumCreateThread";
+import LoadingSpinner from "../components/LoadingSpinner";
+import SuccessToast from "../components/SuccessToast";
+import { getThreads } from "../utils/forumApi";
+import "../styles.css";
+import "../microinteractions.css";
 
 function Forum() {
   const [threads, setThreads] = useState([]);
@@ -16,7 +16,7 @@ function Forum() {
   const [error, setError] = useState(null);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
-  const [successMessage, setSuccessMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState("");
 
   useEffect(() => {
     loadThreads();
@@ -37,14 +37,14 @@ function Forum() {
 
   function handleThreadCreated(newThread) {
     if (newThread) {
-      setThreads(prev => [newThread, ...prev]);
+      setThreads((prev) => [newThread, ...prev]);
     } else {
       // Reload threads if thread not found
       loadThreads();
     }
     setShowCreateModal(false);
     // Show success toast
-    setSuccessMessage('Discussion created successfully!');
+    setSuccessMessage("Discussion created successfully!");
     setShowSuccess(true);
   }
 
@@ -54,7 +54,7 @@ function Forum() {
         <Navbar />
 
         <motion.div
-          className="forum-container"
+          className="page-content forum-container"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
@@ -62,7 +62,8 @@ function Forum() {
           <div className="forum-header">
             <h1 className="forum-title">Happy Bibimbap Community Forum</h1>
             <p className="forum-description">
-              Share your thoughts, recipes, and experiences with fellow bibimbap enthusiasts!
+              Share your thoughts, recipes, and experiences with fellow bibimbap
+              enthusiasts!
             </p>
             <motion.button
               className="button-primary"
@@ -76,7 +77,11 @@ function Forum() {
 
           {loading && (
             <div className="loading-state" role="status" aria-live="polite">
-              <LoadingSpinner size="lg" message="Loading discussions..." variant="dots" />
+              <LoadingSpinner
+                size="lg"
+                message="Loading discussions..."
+                variant="dots"
+              />
             </div>
           )}
 
@@ -89,9 +94,7 @@ function Forum() {
             </div>
           )}
 
-          {!loading && !error && (
-            <ForumThreadList threads={threads} />
-          )}
+          {!loading && !error && <ForumThreadList threads={threads} />}
         </motion.div>
 
         {showCreateModal && (

@@ -1,22 +1,22 @@
-import { motion } from 'framer-motion';
-import React from 'react';
-import { useInView } from 'react-intersection-observer';
-import Navbar from '../components/NavBar'; // Import the Navbar component
-import happybibimbap10 from '../images/happybibimbap10.png';
-import happybibimbap11 from '../images/happybibimbap11.png';
-import happybibimbap12 from '../images/happybibimbap12.png';
-import happybibimbap13 from '../images/happybibimbap13.png';
-import happybibimbap14 from '../images/happybibimbap14.png';
-import happybibimbap15 from '../images/happybibimbap15.png';
-import happybibimbap16 from '../images/happybibimbap16.png';
-import happybibimbap2 from '../images/happybibimbap2.png';
-import happybibimbap3 from '../images/happybibimbap3.png';
-import happybibimbap4 from '../images/happybibimbap4.png';
-import happybibimbap5 from '../images/happybibimbap5.png';
-import happybibimbap6 from '../images/happybibimbap6.png';
-import happybibimbap7 from '../images/happybibimbap7.png';
-import happybibimbap8 from '../images/happybibimbap8.png';
-import happybibimbap9 from '../images/happybibimbap9.png';
+import { motion } from "framer-motion";
+import React from "react";
+import { useInView } from "react-intersection-observer";
+import Navbar from "../components/NavBar"; // Import the Navbar component
+import happybibimbap10 from "../images/happybibimbap10.png";
+import happybibimbap11 from "../images/happybibimbap11.png";
+import happybibimbap12 from "../images/happybibimbap12.png";
+import happybibimbap13 from "../images/happybibimbap13.png";
+import happybibimbap14 from "../images/happybibimbap14.png";
+import happybibimbap15 from "../images/happybibimbap15.png";
+import happybibimbap16 from "../images/happybibimbap16.png";
+import happybibimbap2 from "../images/happybibimbap2.png";
+import happybibimbap3 from "../images/happybibimbap3.png";
+import happybibimbap4 from "../images/happybibimbap4.png";
+import happybibimbap5 from "../images/happybibimbap5.png";
+import happybibimbap6 from "../images/happybibimbap6.png";
+import happybibimbap7 from "../images/happybibimbap7.png";
+import happybibimbap8 from "../images/happybibimbap8.png";
+import happybibimbap9 from "../images/happybibimbap9.png";
 
 const images = [
   happybibimbap2,
@@ -59,12 +59,12 @@ const AnimatedImage = ({ src, alt, delay }) => {
   });
 
   return (
-    <motion.img 
+    <motion.img
       ref={ref}
-      src={src} 
-      alt={alt} 
+      src={src}
+      alt={alt}
       initial="hidden"
-      animate={inView ? 'visible' : 'hidden'}
+      animate={inView ? "visible" : "hidden"}
       variants={imageVariants}
       transition={{ duration: 0.5, delay }}
       className="pic"
@@ -74,20 +74,24 @@ const AnimatedImage = ({ src, alt, delay }) => {
 
 const Portfolio = () => {
   return (
-    <div className="container" style={{ position: 'relative' }}>
+    <div className="container" style={{ position: "relative" }}>
       <Navbar /> {/* Use the Navbar component */}
-
-
-      <div className="portfolio-container" style={{ position: 'relative', zIndex: 1 }}>
+      <div
+        className="page-content portfolio-container"
+        style={{ position: "relative", zIndex: 1 }}
+      >
         <h1>Welcome to Happy Bibimbap's Portfolio!</h1>
-        <p>We are here to serve you some sweet, colorful, funny, unique, and creative dishes!</p>
+        <p>
+          We are here to serve you some sweet, colorful, funny, unique, and
+          creative dishes!
+        </p>
         <p>Check out our amazing creations below:</p>
         <div className="image-wrapper">
           {shuffledImages.map((image, index) => (
-            <AnimatedImage 
-              key={index} 
-              src={image} 
-              alt={`Happy Bibimbap ${index + 2}`} 
+            <AnimatedImage
+              key={index}
+              src={image}
+              alt={`Happy Bibimbap ${index + 2}`}
               delay={index * 0.2} // Staggered delay for animations
             />
           ))}

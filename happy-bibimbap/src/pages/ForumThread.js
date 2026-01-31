@@ -1,25 +1,25 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import Navbar from '../components/NavBar';
-import ForumPost from '../components/ForumPost';
-import ForumReplyForm from '../components/ForumReplyForm';
-import { getThread } from '../utils/forumApi';
-import '../styles.css';
+import React, { useState, useEffect, useCallback } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import Navbar from "../components/NavBar";
+import ForumPost from "../components/ForumPost";
+import ForumReplyForm from "../components/ForumReplyForm";
+import { getThread } from "../utils/forumApi";
+import "../styles.css";
 
 function formatDate(timestamp) {
-  if (!timestamp) return 'Unknown date';
+  if (!timestamp) return "Unknown date";
 
   // Handle SQLite timestamp format "YYYY-MM-DD HH:MM:SS"
-  const date = new Date(timestamp.replace(' ', 'T') + 'Z');
+  const date = new Date(timestamp.replace(" ", "T") + "Z");
 
   // Check if date is valid
-  if (isNaN(date.getTime())) return 'Unknown date';
+  if (isNaN(date.getTime())) return "Unknown date";
 
-  return date.toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
+  return date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
   });
 }
 
@@ -49,7 +49,7 @@ function ForumThread() {
 
   function handlePostCreated(newPost) {
     if (newPost) {
-      setThread(prev => ({
+      setThread((prev) => ({
         ...prev,
         posts: [...prev.posts, newPost],
       }));
@@ -60,10 +60,10 @@ function ForumThread() {
   }
 
   function handlePostLiked(postId, newLikeCount) {
-    setThread(prev => ({
+    setThread((prev) => ({
       ...prev,
-      posts: prev.posts.map(post =>
-        post.id === postId ? { ...post, like_count: newLikeCount } : post
+      posts: prev.posts.map((post) =>
+        post.id === postId ? { ...post, like_count: newLikeCount } : post,
       ),
     }));
   }
@@ -72,7 +72,7 @@ function ForumThread() {
     return (
       <div className="container">
         <Navbar />
-        <main className="thread-container">
+        <main className="page-content thread-container">
           <div className="loading-state" role="status" aria-live="polite">
             <p>Loading thread...</p>
           </div>
@@ -85,7 +85,7 @@ function ForumThread() {
     return (
       <div className="container">
         <Navbar />
-        <main className="thread-container">
+        <main className="page-content thread-container">
           <div className="error-state" role="alert" aria-live="assertive">
             <p>Error: {error}</p>
             <button onClick={loadThread} className="button-secondary">
@@ -101,10 +101,13 @@ function ForumThread() {
     return (
       <div className="container">
         <Navbar />
-        <main className="thread-container">
+        <main className="page-content thread-container">
           <div className="error-state" role="alert">
             <p>Thread not found</p>
-            <button onClick={() => navigate('/forum')} className="button-secondary">
+            <button
+              onClick={() => navigate("/forum")}
+              className="button-secondary"
+            >
               Back to Forum
             </button>
           </div>
@@ -118,15 +121,12 @@ function ForumThread() {
       <Navbar />
 
       <motion.div
-        className="thread-container"
+        className="page-content thread-container"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.4 }}
       >
-        <button
-          className="back-button"
-          onClick={() => navigate('/forum')}
-        >
+        <button className="back-button" onClick={() => navigate("/forum")}>
           ← Back to Forum
         </button>
 
@@ -142,10 +142,7 @@ function ForumThread() {
           ))}
         </div>
 
-        <ForumReplyForm
-          threadId={threadId}
-          onPostCreated={handlePostCreated}
-        />
+        <ForumReplyForm threadId={threadId} onPostCreated={handlePostCreated} />
       </motion.div>
     </div>
   );

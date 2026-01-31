@@ -1,14 +1,14 @@
 import React, { useState, useRef } from "react";
-import Navbar from '../components/NavBar';
-import PageTransition from '../components/PageTransition';
-import useEasterEggs from '../hooks/useEasterEggs';
+import Navbar from "../components/NavBar";
+import PageTransition from "../components/PageTransition";
+import useEasterEggs from "../hooks/useEasterEggs";
 import happybibimbap from "../happybibimbap.png";
 import "../styles.css";
 
 // Audio file paths (relative to the public directory)
 const songs = [
-  { 
-    title: "Happy Bibimbap", 
+  {
+    title: "Happy Bibimbap",
     src: "/music/HappyBibimbap.mp3",
     lyrics: `
 야채 조각들이 눈부셔
@@ -36,10 +36,10 @@ Harmony in a bowl
 우리 함께 즐겨봐요
 Nothing else compares
 Just this meal and cheerful hearts
-    `
+    `,
   },
-  { 
-    title: "Bibimbap Bliss", 
+  {
+    title: "Bibimbap Bliss",
     src: "/music/HappyBibimbap2.mp3",
     lyrics: `
 Ingredients in the air
@@ -71,10 +71,10 @@ Happy in a bowl
 고소한 my soul
 All the colors gleam
 비벼 봐 let's dream
-    `
+    `,
   },
-  { 
-    title: "Bibimbap Delight", 
+  {
+    title: "Bibimbap Delight",
     src: "/music/HappyBibimbap3.mp3",
     lyrics: `
 Cooking in the kitchen
@@ -122,17 +122,19 @@ Every bite a piece of heaven
 Joy in every grain
 Let the flavors reign
 우리의 비빔밥
-    `
-  }
+    `,
+  },
 ];
 
 function Home() {
-  const [visibleLyrics, setVisibleLyrics] = useState(Array(songs.length).fill(false));
+  const [visibleLyrics, setVisibleLyrics] = useState(
+    Array(songs.length).fill(false),
+  );
   const logoRef = useRef(null);
   const { handleLogoClick, handleShiftHover } = useEasterEggs();
 
   const toggleLyrics = (index) => {
-    setVisibleLyrics(prevState => {
+    setVisibleLyrics((prevState) => {
       const newState = [...prevState];
       newState[index] = !newState[index];
       return newState;
@@ -143,57 +145,80 @@ function Home() {
     <PageTransition>
       <div className="container">
         <Navbar />
-      <div className="introduction-container">
-        <img
-          ref={logoRef}
-          src={happybibimbap}
-          className="logo logo-clickable"
-          alt="Happy Bibimbap"
-          onClick={() => handleLogoClick(logoRef.current)}
-          title="Click me!"
-        />
-        <h1
-          className="introduction-title has-secret-message"
-          onMouseEnter={handleShiftHover("Made with love and gochujang!")}
-        >Hello!</h1>
-        <div className="introduction-content">
-          <p>
-            Welcome to my portfolio!
-            <br />
-            <br />
-            I'm Happy Bibimbap, a creative culinary enthusiast who loves to bring joy and flavor to every dish.
-            Explore my work and join me on this delicious journey!
-          </p>
+        <div className="page-content introduction-container">
+          <img
+            ref={logoRef}
+            src={happybibimbap}
+            className="logo logo-clickable"
+            alt="Happy Bibimbap"
+            onClick={() => handleLogoClick(logoRef.current)}
+            title="Click me!"
+          />
+          <h1
+            className="introduction-title has-secret-message"
+            onMouseEnter={handleShiftHover("Made with love and gochujang!")}
+          >
+            Hello!
+          </h1>
+          <div className="introduction-content">
+            <p>
+              Welcome to my portfolio!
+              <br />
+              <br />
+              I'm Happy Bibimbap, a creative culinary enthusiast who loves to
+              bring joy and flavor to every dish. Explore my work and join me on
+              this delicious journey!
+            </p>
+          </div>
+          {/* Music gallery section */}
+          <section
+            className="music-container"
+            aria-labelledby="music-section-title"
+          >
+            <h2 id="music-section-title" className="music-title">
+              Enjoy Some Music
+            </h2>
+            <p className="music-description">
+              Relax and enjoy these soothing, calming, and happy tracks inspired
+              by the joys of making and enjoying bibimbap.
+            </p>
+            <div className="audio-gallery" role="list">
+              {songs.map((song, index) => (
+                <article
+                  key={index}
+                  className="audio-item"
+                  role="listitem"
+                  aria-labelledby={`song-title-${index}`}
+                >
+                  <h3 id={`song-title-${index}`} className="audio-title">
+                    {song.title}
+                  </h3>
+                  <audio controls aria-label={`Audio player for ${song.title}`}>
+                    <source src={song.src} type="audio/mpeg" />
+                    Your browser does not support the audio element.
+                  </audio>
+                  <button
+                    onClick={() => toggleLyrics(index)}
+                    aria-expanded={visibleLyrics[index]}
+                    aria-controls={`lyrics-${index}`}
+                  >
+                    {visibleLyrics[index] ? "Hide Lyrics" : "Show Lyrics"}
+                  </button>
+                  {visibleLyrics[index] && (
+                    <div
+                      id={`lyrics-${index}`}
+                      className="lyrics"
+                      role="region"
+                      aria-label={`Lyrics for ${song.title}`}
+                    >
+                      <p>{song.lyrics}</p>
+                    </div>
+                  )}
+                </article>
+              ))}
+            </div>
+          </section>
         </div>
-      </div>
-      {/* Music gallery section */}
-      <section className="music-container" aria-labelledby="music-section-title">
-        <h2 id="music-section-title" className="music-title">Enjoy Some Music</h2>
-        <p className="music-description">Relax and enjoy these soothing, calming, and happy tracks inspired by the joys of making and enjoying bibimbap.</p>
-        <div className="audio-gallery" role="list">
-          {songs.map((song, index) => (
-            <article key={index} className="audio-item" role="listitem" aria-labelledby={`song-title-${index}`}>
-              <h3 id={`song-title-${index}`} className="audio-title">{song.title}</h3>
-              <audio controls aria-label={`Audio player for ${song.title}`}>
-                <source src={song.src} type="audio/mpeg" />
-                Your browser does not support the audio element.
-              </audio>
-              <button
-                onClick={() => toggleLyrics(index)}
-                aria-expanded={visibleLyrics[index]}
-                aria-controls={`lyrics-${index}`}
-              >
-                {visibleLyrics[index] ? "Hide Lyrics" : "Show Lyrics"}
-              </button>
-              {visibleLyrics[index] && (
-                <div id={`lyrics-${index}`} className="lyrics" role="region" aria-label={`Lyrics for ${song.title}`}>
-                  <p>{song.lyrics}</p>
-                </div>
-              )}
-            </article>
-          ))}
-        </div>
-      </section>
       </div>
     </PageTransition>
   );
