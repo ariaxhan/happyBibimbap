@@ -7,22 +7,6 @@ import ForumReplyForm from "../components/ForumReplyForm";
 import { getThread } from "../utils/forumApi";
 import "../styles.css";
 
-function formatDate(timestamp) {
-  if (!timestamp) return "Unknown date";
-
-  // Handle SQLite timestamp format "YYYY-MM-DD HH:MM:SS"
-  const date = new Date(timestamp.replace(" ", "T") + "Z");
-
-  // Check if date is valid
-  if (isNaN(date.getTime())) return "Unknown date";
-
-  return date.toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
-}
-
 function ForumThread() {
   const { threadId } = useParams();
   const navigate = useNavigate();

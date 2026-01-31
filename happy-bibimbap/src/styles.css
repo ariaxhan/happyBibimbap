@@ -60,6 +60,14 @@
   /* Transitions */
   --transition-fast: 150ms ease;
   --transition-normal: 250ms ease;
+
+  /* Page background: single source of truth. Applied only to html. */
+  --bg-page: linear-gradient(
+    247deg,
+    rgba(240, 144, 144, 0.83) 0%,
+    #e379a9 50%,
+    #ee9258 100%
+  );
 }
 
 /* Base Styles */
@@ -69,13 +77,7 @@
   box-sizing: border-box;
 }
 
-#root {
-  width: 100%;
-  min-height: 100vh;
-  margin: 0;
-  padding: 0;
-}
-
+/* --- PAGE BACKGROUND: ONE PLACE ONLY (no double background) --- */
 html {
   height: 100%;
   margin: 0;
@@ -84,6 +86,18 @@ html {
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: rgba(168, 50, 113, 0.5) transparent;
+  background: var(--bg-page);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  background: transparent;
 }
 
 body {
@@ -98,8 +112,7 @@ body {
   font-size: var(--font-size-base);
   line-height: var(--line-height-body);
   color: var(--color-text-primary);
-  background: #e379a9;
-  background-attachment: fixed;
+  background: transparent;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -193,7 +206,6 @@ html::-webkit-scrollbar-thumb:hover {
   }
 }
 
-/* Full-width page shell - no max-width here so gradient and scroll are full viewport */
 .container {
   display: flex;
   flex-direction: column;
@@ -203,9 +215,9 @@ html::-webkit-scrollbar-thumb:hover {
   padding: 20px;
   box-sizing: border-box;
   margin: 0;
+  background: transparent;
 }
 
-/* Content column - single constrained width so we don't get "double card" */
 .page-content {
   width: 100%;
   max-width: 1200px;
@@ -213,6 +225,7 @@ html::-webkit-scrollbar-thumb:hover {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  background: transparent;
 }
 
 /* ========================================
