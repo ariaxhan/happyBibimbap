@@ -81,17 +81,19 @@ html {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(168, 50, 113, 0.5) transparent;
 }
 
 body {
-  height: 100%;
+  min-height: 100%;
   margin: 0;
   padding: 0;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  overflow-x: hidden;
+  align-items: stretch;
+  width: 100%;
   font-family: var(--font-family);
   font-size: var(--font-size-base);
   line-height: var(--line-height-body);
@@ -105,6 +107,49 @@ body {
   background-attachment: fixed;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Styled scrollbar - single scroll on document */
+html::-webkit-scrollbar {
+  width: 10px;
+}
+html::-webkit-scrollbar-track {
+  background: transparent;
+}
+html::-webkit-scrollbar-thumb {
+  background: rgba(168, 50, 113, 0.4);
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+html::-webkit-scrollbar-thumb:hover {
+  background: rgba(168, 50, 113, 0.6);
+  background-clip: padding-box;
+}
+
+/* Styled scrollbars for overflow areas (lyrics, modal) */
+.lyrics,
+.modal-content {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(168, 50, 113, 0.4) rgba(0, 0, 0, 0.05);
+}
+.lyrics::-webkit-scrollbar,
+.modal-content::-webkit-scrollbar {
+  width: 8px;
+}
+.lyrics::-webkit-scrollbar-track,
+.modal-content::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+}
+.lyrics::-webkit-scrollbar-thumb,
+.modal-content::-webkit-scrollbar-thumb {
+  background: rgba(168, 50, 113, 0.35);
+  border-radius: 4px;
+}
+.lyrics::-webkit-scrollbar-thumb:hover,
+.modal-content::-webkit-scrollbar-thumb:hover {
+  background: rgba(168, 50, 113, 0.5);
 }
 
 /* Skip to main content link for keyboard users */
@@ -153,22 +198,23 @@ body {
   }
 }
 
+/* Full-width page shell - no max-width here so gradient and scroll are full viewport */
 .container {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
   align-items: center;
   width: 100%;
-  max-width: 1200px;
   min-height: 100vh;
   padding: 20px;
   box-sizing: border-box;
-  margin: 0 auto;
+  margin: 0;
 }
 
-/* Single content wrapper - replaces introduction/forum/portfolio container layers */
+/* Content column - single constrained width so we don't get "double card" */
 .page-content {
   width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
