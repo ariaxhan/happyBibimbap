@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "\"$CLAUDE_PROJECT_DIR/.claude/hooks/format-js.sh\""
+            "command": "/Users/ariaxhan/Downloads/Vaults/_meta/tools/guard-code-tooling.sh \"$FILE\" && \"$CLAUDE_PROJECT_DIR/.claude/hooks/format-js.sh\""
           }
         ]
       }
